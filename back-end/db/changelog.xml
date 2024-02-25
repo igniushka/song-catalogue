@@ -11,11 +11,8 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
 
     <changeSet id="1" author="Ignas Knizikevicius">
         <createTable tableName="user">
-           <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
-                 <constraints primaryKey="true"/>
-           </column>
             <column name="username" type="varchar">
-                <constraints nullable="false" primaryKey="false"/>
+                <constraints nullable="false"  primaryKey="true"/>
             </column>
             <column name="password" type="varchar">
                 <constraints nullable="false" primaryKey="false"/>
@@ -27,8 +24,8 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user_id" type="uuid">
-                <constraints nullable="false" foreignKeyName="user_uuid" references="user(id)"/>
+            <column name="user_username" type="varchar">
+                <constraints nullable="false" foreignKeyName="user_username" references="user(username)"/>
             </column>
             <column name="password" type="varchar">
                 <constraints nullable="false" primaryKey="false"/>
