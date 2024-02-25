@@ -17,6 +17,9 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="password" type="varchar">
                 <constraints nullable="false" primaryKey="false"/>
             </column>
+            <column name="salt" type="varchar">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet id="2" author="Ignas Knizikevicius">
@@ -27,9 +30,31 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="user_username" type="varchar">
                 <constraints nullable="false" foreignKeyName="user_username" references="user(username)"/>
             </column>
-            <column name="password" type="varchar">
-                <constraints nullable="false" primaryKey="false"/>
+            <column name="song_name" type="varchar">
+                <constraints nullable="false"  primaryKey="false"/>
+            </column>
+            <column name="artist" type="varchar">
+                <constraints nullable="false"  primaryKey="false"/>
+            </column>
+            <column name="album" type="varchar">
+                <constraints nullable="false"  primaryKey="false"/>
+            </column>
+            <column name="genre" type="varchar">
+                <constraints nullable="false"  primaryKey="false"/>
+            </column>
+            <column name="release_year" type="int">
+                <constraints nullable="false"  primaryKey="false"/>
+            </column>
+            <column name="length" type="int">
+                <constraints nullable="false"  primaryKey="false"/>
             </column>
         </createTable>
     </changeSet>
+<!--    <changeSet id="3" author="Ignas Knizikevicius">-->
+<!--        <createIndex indexName="song_detail_index" schemaName="db" tableName="song">-->
+<!--            <column name="artist"/>-->
+<!--            <column name="release_year"/>-->
+<!--        </createIndex>-->
+<!--    </changeSet>-->
+
 </databaseChangeLog>

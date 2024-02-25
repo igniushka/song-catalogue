@@ -1,5 +1,8 @@
 package song.catalogue.AES;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.*;
@@ -14,30 +17,29 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+@Service
 public class EncryptionService {
+
     private static final int ITERATION_COUNT = 60090;
     private static final int KEY_LENGTH = 256;
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final String SECRET_KEY_FACTORY = "PBKDF2WithHmacSHA256";
 
+    private final String secret;
 
-    private static SecretKey createSecretKey(String salt, String secret) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        //      create secretKey from secret and salt
-        SecretKeyFactory factory = SecretKeyFactory.getInstance(SECRET_KEY_FACTORY);
-        KeySpec spec = new PBEKeySpec(secret.toCharArray(), salt.getBytes(), ITERATION_COUNT, KEY_LENGTH);
-        return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+    public EncryptionService(@Value("${AES.secret}") String secret){
+        this.secret = secret;
     }
 
-    private static IvParameterSpec createIV() {
-        //        create initialisation vector
-        byte[] initialisationVector = new byte[16];
-        new SecureRandom().nextBytes(initialisationVector);
-        return  new IvParameterSpec(initialisationVector);
+    public String generateSalt(){
+        return KeyGenerators.string().generateKey();
     }
 
-    public static String encrypt(String input, String salt, String secret)
-            throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        var secretKey = createSecretKey(salt, secret);
+
+    public String encrypt(String input, String salt)
+            throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException,
+            InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        var secretKey = createSecretKey(salt);
         var ivParameterSpec = createIV();
 
         Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -47,10 +49,10 @@ public class EncryptionService {
     }
 
 
-    public static String decrypt(String input, String salt, String secret) throws NoSuchPaddingException, NoSuchAlgorithmException,
+    public String decrypt(String input, String salt) throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException {
-        var secretKey = createSecretKey(salt, secret);
+        var secretKey = createSecretKey(salt);
         var ivParameterSpec = createIV();
 
         Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -60,6 +62,18 @@ public class EncryptionService {
         return new String(plainText);
     }
 
+    private SecretKey createSecretKey(String salt) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        //      create secretKey from secret and salt
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(SECRET_KEY_FACTORY);
+        KeySpec spec = new PBEKeySpec(secret.toCharArray(), salt.getBytes(), ITERATION_COUNT, KEY_LENGTH);
+        return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+    }
 
+    private IvParameterSpec createIV() {
+        //        create initialisation vector
+        byte[] initialisationVector = new byte[16];
+        new SecureRandom().nextBytes(initialisationVector);
+        return  new IvParameterSpec(initialisationVector);
+    }
 
 }
