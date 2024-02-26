@@ -1,10 +1,10 @@
-package song.catalogue.user;
+package song.catalogue.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import song.catalogue.AES.EncryptionService;
-import song.catalogue.exception.DuplicateEntityException;
-import song.catalogue.exception.EntityNotFoundException;
+import song.catalogue.demo.AES.EncryptionService;
+import song.catalogue.demo.exception.DuplicateEntityException;
+import song.catalogue.demo.exception.EntityNotFoundException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -27,7 +27,7 @@ public class UserService {
 
     public void createUser(UserModel userModel) throws InvalidAlgorithmParameterException,
             NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException,
-            BadPaddingException, InvalidKeyException {
+            BadPaddingException, InvalidKeyException, DuplicateEntityException {
 //        check if username is taken
         var existing_user = repository.selectUser(userModel.username());
         if (existing_user == null){
@@ -50,7 +50,7 @@ public class UserService {
 
     public void validateUser(UserModel userModel) throws InvalidAlgorithmParameterException, NoSuchPaddingException,
             IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeySpecException,
-            InvalidKeyException {
+            EntityNotFoundException, InvalidKeyException {
         var existing_user = repository.selectUser(userModel.username());
         if (existing_user == null){
             throw new EntityNotFoundException("Username not found!");

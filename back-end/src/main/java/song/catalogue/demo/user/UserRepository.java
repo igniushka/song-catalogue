@@ -1,11 +1,9 @@
-package song.catalogue.user;
+package song.catalogue.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import static song.catalogue.user.UserSqlConstants.*;
 
 @Repository
 public class UserRepository  {
@@ -24,13 +22,13 @@ public class UserRepository  {
         params.addValue("username",username);
         params.addValue("password", password);
         params.addValue("salt", salt);
-        namedParameterJdbcTemplate.update(INSERT_USER, params);
+        namedParameterJdbcTemplate.update(UserSqlConstants.INSERT_USER, params);
     }
 
     public UserModel selectUser(String username){
         var params = new MapSqlParameterSource();
         params.addValue("username", username);
-        var users = namedParameterJdbcTemplate.query(SELECT_USER, params, rowMapper);
+        var users = namedParameterJdbcTemplate.query(UserSqlConstants.SELECT_USER, params, rowMapper);
         if (users.isEmpty()){
             return null;
         } else {
@@ -41,6 +39,6 @@ public class UserRepository  {
     public void deleteUser(String username){
         var params = new MapSqlParameterSource();
         params.addValue("username", username);
-        var result = namedParameterJdbcTemplate.update(DELETE_USER, params);
+        var result = namedParameterJdbcTemplate.update(UserSqlConstants.DELETE_USER, params);
     }
 }

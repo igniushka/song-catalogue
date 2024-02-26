@@ -1,4 +1,4 @@
-package song.catalogue.config;
+package song.catalogue.demo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;

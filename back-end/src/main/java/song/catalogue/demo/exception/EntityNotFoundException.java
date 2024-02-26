@@ -1,4 +1,4 @@
-package song.catalogue.exception;
+package song.catalogue.demo.exception;
 
 public class EntityNotFoundException extends RuntimeException{
     public EntityNotFoundException(String message){

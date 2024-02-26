@@ -1,4 +1,4 @@
-package song.catalogue.user;
+package song.catalogue.demo.user;
 
 public class UserSqlConstants {
     static final String INSERT_USER = "INSERT INTO db.user (username, password, salt) VALUES (:username, :password, :salt)";
