@@ -31,7 +31,7 @@ public class AdminUserResource {
             userService.createUser(userModel);
             return ResponseEntity.ok("User created successfully.");
         } catch (DuplicateEntityException e) {
-            var message = "User with this username '%s' already exists.".formatted(userModel.username());
+            var message = "User with username '%s' already exists.".formatted(userModel.username());
             LOGGER.error(message);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
         } catch (Exception e) {

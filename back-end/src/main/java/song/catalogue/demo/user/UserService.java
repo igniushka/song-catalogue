@@ -33,7 +33,9 @@ public class UserService {
         if (existing_user == null){
                 var salt = encryptionService.generateSalt();
                 var encryptedPassword = encryptionService.encrypt(userModel.password(), salt);
-                repository.createUser(userModel.username(), salt, encryptedPassword);
+//                var encryptedPassword = encryptionService.encrypt(userModel.password());
+
+            repository.createUser(userModel.username(), encryptedPassword, salt);
         } else {
             throw new DuplicateEntityException("Username already exists!");
         }
@@ -56,7 +58,11 @@ public class UserService {
             throw new EntityNotFoundException("Username not found!");
         } else {
 //            verify password is correct
-             var decrypted_pass = encryptionService.decrypt(existing_user.password(), existing_user.salt());
+
+
+//            var decrypted_pass = encryptionService.decrypt(existing_user.password());
+
+            var decrypted_pass = encryptionService.decrypt(existing_user.password(), existing_user.salt());
              if (!decrypted_pass.equals(userModel.password())){
                  throw new EntityNotFoundException("Invalid password!");
              }
