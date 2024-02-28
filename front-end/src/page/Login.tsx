@@ -1,5 +1,6 @@
 import axios from "axios";
-import {RegisterLogin} from "../component/RegisterLogin";
+import { Navigate } from 'react-router-dom';
+import { RegisterLogin } from "../component/RegisterLogin";
 
 interface Props{
     user: User,
@@ -22,12 +23,14 @@ export const Login: React.FC<Props> = ({user, setUser}) => {
             console.log(error);
         })
       };
-
-    return <RegisterLogin
-    headerText="Sign In"
-    buttonText="Log In"
-    bottomText="Don't have an account?"
-    link_path="/register"
-    link_text="Sign Up"
-    on_submit={login}/>
-}   
+      return <>{user.username && user.password ? < Navigate to="/" /> 
+      : <RegisterLogin
+            headerText="Sign In"
+            buttonText="Log In"
+            bottomText="Don't have an account?"
+            link_path="/register"
+            link_text="Sign Up"
+            on_submit={login}/>
+            }
+        </>
+    }
