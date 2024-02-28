@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from "axios";
 import { Navigate } from 'react-router-dom';
+import { SongTable } from '../component/SongTable';
 
 
 interface Props{
@@ -34,6 +35,6 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         }
     }
 
-    return <>{user.username && user.password ? <div>Welcome {user.username}</div> : <Navigate to="/login"/> }</>
+    return <>{user.username && user.password ? <SongTable songs={songList}/> : <Navigate to="/login"/> }</>
 }
       
