@@ -14,9 +14,10 @@ interface Props {
   bottomText: string,
   link_path: string,
   link_text: string,
+  on_submit: (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => void;
 }
 
-export const RegisterLogin: React.FC<Props> = ({headerText, buttonText, bottomText, link_path, link_text}) => {
+export const RegisterLogin: React.FC<Props> = ({headerText, buttonText, bottomText, link_path, link_text, on_submit}) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
@@ -26,11 +27,6 @@ const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('Email:', username, 'Password:', password);
   };
 return (
     <Container maxWidth="xs">
@@ -67,6 +63,7 @@ return (
           fullWidth
           variant="contained"
           color="primary"
+          onClick={(event)=>on_submit(event, username, password)}
         >
           {buttonText}
         </Button>
