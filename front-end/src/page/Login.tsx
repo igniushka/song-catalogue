@@ -23,7 +23,7 @@ export const Login: React.FC<Props> = ({user, setUser}) => {
             console.log(error);
         })
       };
-      return <>{user.username && user.password ? < Navigate to="/" /> 
+      return <>{user.username && user.password ? < Navigate to="/catalogue" /> 
       : <RegisterLogin
             headerText="Sign In"
             buttonText="Log In"
