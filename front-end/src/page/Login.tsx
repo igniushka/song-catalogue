@@ -2,8 +2,8 @@ import axios from "axios";
 import {RegisterLogin} from "../component/RegisterLogin";
 
 interface Props{
-    user: User | null,
-    setUser: (newUser: User | null) => void;
+    user: User,
+    setUser: (newUser: User) => void;
 }
 export const Login: React.FC<Props> = ({user, setUser}) => {
     console.log(user)
@@ -14,8 +14,9 @@ export const Login: React.FC<Props> = ({user, setUser}) => {
         console.log(loginUrl)
         axios.post(loginUrl, { username: username, password: password})
         .then((response) => {
-            console.log(response);
-
+            if (response.status == 200){
+                setUser({username, password})
+            }
         })
         .catch((error) => {
             console.log(error);
