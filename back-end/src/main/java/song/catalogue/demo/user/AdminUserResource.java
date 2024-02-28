@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import song.catalogue.demo.exception.DuplicateEntityException;
 import song.catalogue.demo.exception.EntityNotFoundException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("admin/user")
 public class AdminUserResource {
