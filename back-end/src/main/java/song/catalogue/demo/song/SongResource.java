@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/song")
 public class SongResource {
@@ -60,8 +63,8 @@ public class SongResource {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteSong(@RequestBody String song_id, @RequestHeader("user") String user){
+    @DeleteMapping("/{song_id}")
+    public ResponseEntity deleteSong(@PathVariable String song_id, @RequestHeader("user") String user){
         try {
             repository.deleteSong(user, song_id);
             return ResponseEntity.ok().body(song_id);
