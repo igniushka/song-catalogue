@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import PageNotFound from './pages/NotFound.tsx'
-import RegisterLogin from './pages/RegisterLogin.tsx'
+import PageNotFound from './page/NotFound.tsx'
+import Register from './page/Register.tsx'
+import Login from './page/Login.tsx'
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/register',
-    element: <RegisterLogin/>,
+    element: <Register/>,
+  },
+  {
+    path: '/login',
+    element: <Login/>,
   }
 ])
 ReactDOM.createRoot(document.getElementById('root')!).render(

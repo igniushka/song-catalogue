@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -7,27 +6,19 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
+import Link from '@mui/material/Link';
 
+interface Props {
+  headerText: string,
+  buttonText: string,
+  bottomText: string,
+  link_path: string,
+  link_text: string,
+}
 
-export default function RegisterLogin(){
+export const RegisterLogin: React.FC<Props> = ({headerText, buttonText, bottomText, link_path, link_text}) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-//     return  <Box
-//     sx={{
-//       display: 'flex',
-//       flexWrap: 'wrap',
-//       '& > :not(style)': {
-//         m: 1,
-//         width: 128,
-//         height: 128,
-//       },
-//     }}
-//   >
-//      <Paper>
-//      <TextField style={{width: 128}} id="outlined-basic" label="Outlined" variant="outlined" />
-//     </Paper>
-// </Box>
-// }
 
 const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -39,14 +30,13 @@ const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Add your login logic here
-    console.log('Email:', email, 'Password:', password);
+    console.log('Email:', username, 'Password:', password);
   };
 return (
     <Container maxWidth="xs">
         <Paper>
       <Typography component="h1" variant="h5">
-        Sign in
+        {headerText}
       </Typography>
         <TextField
           variant="outlined"
@@ -54,7 +44,7 @@ return (
           required
           fullWidth
           id="username"
-          label="username"
+          label="Username"
           name="username"
           autoFocus
           value={username}
@@ -69,7 +59,6 @@ return (
           label="Password"
           type="password"
           id="password"
-          autoComplete="current-password"
           value={password}
           onChange={handlePasswordChange}
         />
@@ -79,8 +68,11 @@ return (
           variant="contained"
           color="primary"
         >
-          Sign In
+          {buttonText}
         </Button>
+        <Typography component="h1" variant="h5">
+       {bottomText} <Link href={link_path}> {link_text} </Link>
+      </Typography>
         </Paper>
     </Container>
   );}
