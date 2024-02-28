@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import PageNotFound from './pages/NotFound.tsx'
+import RegisterLogin from './pages/RegisterLogin.tsx'
 
 const router = createBrowserRouter([
   {
@@ -13,11 +14,12 @@ const router = createBrowserRouter([
   },
   {
     path: '/register',
-    element: <App/>,
+    element: <RegisterLogin/>,
   }
 ])
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+  
     <RouterProvider router={router}/>
   </React.StrictMode>,
 )
