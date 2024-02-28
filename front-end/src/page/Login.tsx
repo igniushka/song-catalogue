@@ -12,7 +12,6 @@ export const Login: React.FC<Props> = ({user, setUser}) => {
 
     const login = async (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => {
         event.preventDefault();
-        console.log(loginUrl)
         axios.post(loginUrl, { username: username, password: password})
         .then((response) => {
             if (response.status == 200){
