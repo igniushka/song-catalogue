@@ -27,7 +27,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user" type="varchar">
+            <column name="username" type="varchar">
                 <constraints nullable="false" foreignKeyName="user_username" references="user(username)"/>
             </column>
             <column name="name" type="varchar">
