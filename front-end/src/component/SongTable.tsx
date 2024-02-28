@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 
 interface Column {
   id: 'name' | 'artist' | 'album' | 'year';
@@ -24,12 +23,12 @@ const columns: readonly Column[] = [
   { id: 'year', label: 'Year', minWidth: 100,align: 'right'},
 ];
 
-interface MinSongData {
-  name: string;
-  artist: string;
-  album: string;
-  year: number;
-}
+// interface MinSongData {
+//   name: string;
+//   artist: string;
+//   album: string;
+//   year: number;
+// }
 
 interface Props {
    songs: Song[]
@@ -38,10 +37,10 @@ interface Props {
 export const SongTable: React.FC<Props> =({songs}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const rows: MinSongData[] = []
-  for (const song of songs){
-    rows.push({name:song.name, artist: song.artist, album: song.album, year:song.year})
-  }
+//   const rows: MinSongData[] = []
+//   for (const song of songs){
+//     rows.push({name:song.name, artist: song.artist, album: song.album, year:song.year})
+//   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -54,6 +53,14 @@ export const SongTable: React.FC<Props> =({songs}) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TablePagination
+        rowsPerPageOptions={[10, 50]}
+        component="div"
+        count={songs.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}/>
       <TableContainer sx={{ maxHeight: 1500 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -70,11 +77,11 @@ export const SongTable: React.FC<Props> =({songs}) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {songs
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -91,15 +98,6 @@ export const SongTable: React.FC<Props> =({songs}) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </Paper>
   );
 }
