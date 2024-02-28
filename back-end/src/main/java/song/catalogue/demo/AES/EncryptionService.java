@@ -38,7 +38,6 @@ public class EncryptionService {
         return KeyGenerators.string().generateKey();
     }
 
-
     public String encrypt(String input, String salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException,
             InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
@@ -50,7 +49,6 @@ public class EncryptionService {
         byte[] cipherText = cipher.doFinal(input.getBytes());
         return Base64.getEncoder().encodeToString(cipherText);
     }
-
 
     public String decrypt(String input, String salt) throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, InvalidKeyException,
@@ -76,6 +74,5 @@ public class EncryptionService {
         byte[] initialisationVector = new byte[16];
         return  new IvParameterSpec(initialisationVector);
     }
-
 
 }

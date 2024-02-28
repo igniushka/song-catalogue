@@ -57,11 +57,6 @@ public class UserService {
         if (existing_user == null){
             throw new EntityNotFoundException("Username not found!");
         } else {
-//            verify password is correct
-
-
-//            var decrypted_pass = encryptionService.decrypt(existing_user.password());
-
             var decrypted_pass = encryptionService.decrypt(existing_user.password(), existing_user.salt());
              if (!decrypted_pass.equals(userModel.password())){
                  throw new EntityNotFoundException("Invalid password!");

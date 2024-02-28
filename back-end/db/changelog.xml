@@ -27,10 +27,10 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user_username" type="varchar">
+            <column name="user" type="varchar">
                 <constraints nullable="false" foreignKeyName="user_username" references="user(username)"/>
             </column>
-            <column name="song_name" type="varchar">
+            <column name="name" type="varchar">
                 <constraints nullable="false"  primaryKey="false"/>
             </column>
             <column name="artist" type="varchar">
