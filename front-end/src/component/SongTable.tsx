@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { FormHelperText } from '@mui/material';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface Column {
   id: 'name' | 'artist' | 'album' | 'year';
@@ -27,15 +29,9 @@ const columns: readonly Column[] = [
   { id: 'name', label: 'Name', minWidth: 100 },
   { id: 'artist', label: 'Artist', minWidth: 100 },
   { id: 'album', label: 'Album', minWidth: 100, align: 'right',},
-  { id: 'year', label: 'Year', minWidth: 100,align: 'right'},
+  { id: 'year', label: 'Year', minWidth: 100, align: 'right'},
 ];
 
-// interface MinSongData {
-//   name: string;
-//   artist: string;
-//   album: string;
-//   year: number;
-// }
 
 interface Props {
    songs: Song[]
@@ -45,7 +41,16 @@ export const SongTable: React.FC<Props> =({songs}) => {
   const [pageNum, setPageNum] = useState(0);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sort, setSort] = useState("down");
 
+
+  const toggleSort = (event: unknown) => {
+    if (sort==="down"){
+      setSort("up");
+    } else {
+      setSort("down");
+    }
+  }; 
 
   const setPageNumTrigger = () => {
     console.log("setPageNumTrigger")
@@ -75,9 +80,24 @@ export const SongTable: React.FC<Props> =({songs}) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden'}}>
-      <Stack padding={1} spacing={2} direction="row" alignItems="end" justifyContent="end">
+      <Stack padding={1} spacing={2} direction="row" justifyContent="end">
       <FormControl sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
-        <InputLabel id="demo-simple-select-helper-label">Rows</InputLabel>
+        <InputLabel>Sort</InputLabel>
+        <Select defaultValue="Ten" label="Sort" size="small"
+          value={rowsPerPage.toString()}
+          onChange={handleChangeRowsPerPage}>
+          <MenuItem value={10}>Year<ArrowDropUpIcon/></MenuItem>
+          <MenuItem value={25}>Year</MenuItem>
+          <MenuItem value={50}>Song Name</MenuItem>
+          <MenuItem value={100}>Song Name</MenuItem>
+
+        </Select>
+      </FormControl>
+      </Stack>
+
+      <Stack padding={1} spacing={2} direction="row" justifyContent="end">
+      <FormControl sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
+        <InputLabel>Rows</InputLabel>
         <Select defaultValue="Ten" label="Rows" size="small"
           value={rowsPerPage.toString()}
           onChange={handleChangeRowsPerPage}>
@@ -92,7 +112,7 @@ export const SongTable: React.FC<Props> =({songs}) => {
 
       </Stack>
       <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
