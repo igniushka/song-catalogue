@@ -31,6 +31,7 @@ const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 return (
     <Container maxWidth="xs">
         <Paper>
+        <Box padding={1}>
       <Typography component="h1" variant="h5">
         {headerText}
       </Typography>
@@ -70,6 +71,7 @@ return (
         <Typography component="h1" variant="h5">
        {bottomText} <Link href={link_path}> {link_text} </Link>
       </Typography>
+      </Box>
         </Paper>
     </Container>
   );}
