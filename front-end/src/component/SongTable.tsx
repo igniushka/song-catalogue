@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,6 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import Stack from '@mui/material/Stack';
+import Pagination from '@mui/material/Pagination';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import { FormHelperText } from '@mui/material';
 
 interface Column {
   id: 'name' | 'artist' | 'album' | 'year';
@@ -35,33 +42,56 @@ interface Props {
 }
 
 export const SongTable: React.FC<Props> =({songs}) => {
+  const [pageNum, setPageNum] = useState(0);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-//   const rows: MinSongData[] = []
-//   for (const song of songs){
-//     rows.push({name:song.name, artist: song.artist, album: song.album, year:song.year})
-//   }
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+
+  const setPageNumTrigger = () => {
+    console.log("setPageNumTrigger")
+    setPageNum(Math.ceil(songs.length/rowsPerPage))
+  }
+  const changePage = (newPage: number) => {
+    console.log("changePage")
+    console.log(newPage)
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    console.log("handleChangePage")
+    newPage-=1
+    changePage(newPage);
   };
 
+  const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
+    console.log("handleChangeRowsPerPage")
+    setRowsPerPage(+event.target.value);
+    changePage(0);
+    console.log("changed page")
+  };
+
+  useEffect(()=> setPageNumTrigger(), [rowsPerPage, songs])
+
+
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TablePagination
-        rowsPerPageOptions={[10, 50]}
-        component="div"
-        count={songs.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}/>
-      <TableContainer sx={{ maxHeight: 1500 }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden'}}>
+      <Stack padding={1} spacing={2} direction="row" alignItems="end" justifyContent="end">
+      <FormControl sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
+        <InputLabel id="demo-simple-select-helper-label">Rows</InputLabel>
+        <Select defaultValue="Ten" label="Rows" size="small"
+          value={rowsPerPage.toString()}
+          onChange={handleChangeRowsPerPage}>
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={25}>25</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
+          <MenuItem value={100}>100</MenuItem>
+
+        </Select>
+      </FormControl>
+      <Pagination color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
+
+      </Stack>
+      <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

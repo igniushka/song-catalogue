@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from "axios";
 import { Navigate } from 'react-router-dom';
 import { SongTable } from '../component/SongTable';
+import { Paper } from '@mui/material';
 
 
 interface Props{
@@ -35,6 +36,10 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         }
     }
 
-    return <>{user.username && user.password ? <SongTable songs={songList}/> : <Navigate to="/login"/> }</>
+    return <>{user.username && user.password ?
+    <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
+        <SongTable songs={songList}/>
+    </Paper> : 
+    <Navigate to="/login"/> }</>
 }
       
