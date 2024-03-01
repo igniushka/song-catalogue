@@ -14,8 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { FormHelperText } from '@mui/material';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import { Height } from '@mui/icons-material';
 
 interface Column {
   id: 'name' | 'artist' | 'album' | 'year';
@@ -35,82 +38,14 @@ const columns: readonly Column[] = [
 
 interface Props {
    songs: Song[]
+   rowsPerPage: number
+   page: number
 }
 
-export const SongTable: React.FC<Props> =({songs}) => {
-  const [pageNum, setPageNum] = useState(0);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sort, setSort] = useState("down");
-
-
-  const toggleSort = (event: unknown) => {
-    if (sort==="down"){
-      setSort("up");
-    } else {
-      setSort("down");
-    }
-  }; 
-
-  const setPageNumTrigger = () => {
-    console.log("setPageNumTrigger")
-    setPageNum(Math.ceil(songs.length/rowsPerPage))
-  }
-  const changePage = (newPage: number) => {
-    console.log("changePage")
-    console.log(newPage)
-    setPage(newPage);
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    console.log("handleChangePage")
-    newPage-=1
-    changePage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
-    console.log("handleChangeRowsPerPage")
-    setRowsPerPage(+event.target.value);
-    changePage(0);
-    console.log("changed page")
-  };
-
-  useEffect(()=> setPageNumTrigger(), [rowsPerPage, songs])
-
-
+export const SongTable: React.FC<Props> =({songs, rowsPerPage, page}) => {
+  
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden'}}>
-      <Stack padding={1} spacing={2} direction="row" justifyContent="end">
-      <FormControl sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
-        <InputLabel>Sort</InputLabel>
-        <Select defaultValue="Ten" label="Sort" size="small"
-          value={rowsPerPage.toString()}
-          onChange={handleChangeRowsPerPage}>
-          <MenuItem value={10}>Year<ArrowDropUpIcon/></MenuItem>
-          <MenuItem value={25}>Year</MenuItem>
-          <MenuItem value={50}>Song Name</MenuItem>
-          <MenuItem value={100}>Song Name</MenuItem>
-
-        </Select>
-      </FormControl>
-      </Stack>
-
-      <Stack padding={1} spacing={2} direction="row" justifyContent="end">
-      <FormControl sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
-        <InputLabel>Rows</InputLabel>
-        <Select defaultValue="Ten" label="Rows" size="small"
-          value={rowsPerPage.toString()}
-          onChange={handleChangeRowsPerPage}>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={25}>25</MenuItem>
-          <MenuItem value={50}>50</MenuItem>
-          <MenuItem value={100}>100</MenuItem>
-
-        </Select>
-      </FormControl>
-      <Pagination color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
-
-      </Stack>
       <TableContainer>
         <Table stickyHeader>
           <TableHead>
