@@ -18,8 +18,8 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { Height } from '@mui/icons-material';
 enum Sort {
-  Year,
-  Name
+  Year = "Year",
+  Name = "Name"
 }
 
 interface Props{
@@ -110,7 +110,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
   useEffect(()=> setPageNumTrigger(), [rowsPerPage, processedSongs])
 
-  useEffect(()=> sortAndFilterSongs(), [originalSongList])
+  useEffect(()=> sortAndFilterSongs(), [originalSongList, sortBy, sortAscending])
 
 
     const sortAndFilterSongs = () =>{
@@ -143,13 +143,13 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
         <Stack padding={0}  spacing={0}>
-        <Stack padding={1} spacing={1} direction="row" justifyContent="end">
+        <Stack paddingBottom={1} spacing={1} direction="row" justifyContent="end">
       <FormControl sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
         <InputLabel>Sort</InputLabel>
-        <Select defaultValue="Ten" label="Sort" size="small"
-          value={rowsPerPage.toString()}
+        <Select defaultValue="Year" label="Sort" size="small"
+          value={sortBy}
           onChange={selectSortBy}>
-          <MenuItem value={"Yea"}>Year</MenuItem>
+          <MenuItem value={"Year"}>Year</MenuItem>
           <MenuItem value={"Name"}>Name</MenuItem>
         </Select>
       </FormControl>
@@ -157,7 +157,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         {sortAscending ? <ArrowUpwardIcon fontSize="medium"></ArrowUpwardIcon> : <ArrowDownward fontSize="medium"></ArrowDownward>}
       </Button>
       </Stack>
-      <Stack padding={1} spacing={2} direction="row" justifyContent="end">
+      <Stack paddingBottom={1} spacing={2} direction="row" justifyContent="end">
       <FormControl  sx={{ m: 1, minWidth: 120, maxHeight: 40}}>
         <InputLabel>Rows</InputLabel>
         <Select defaultValue="Ten" label="Rows" size="small"
