@@ -13,16 +13,19 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import {Song} from '../model/SongModel'
 
+
 interface Props {
   song: Song,
   updateSong: (song: Song) => void,
   creatingNewSong: boolean,
   open: boolean,
   setOpen: (song: boolean) => void,
-  submit: () => void
+  submit: () => void,
+  headerText: string
 }
 
-export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, open, setOpen, submit}) => {
+
+export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, open, setOpen, submit, headerText}) => {
     const [errorMessage, setErrorMessage] = useState("");
 
 
@@ -56,8 +59,15 @@ export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, 
         border: '2px solid #000',
         boxShadow: 24,
         borderRadius: 1,
-        p: 4,
+        p: 2,
       };
+      const textFieldstyle = {
+        color: 'primary',
+        "& .MuiInputBase-input.Mui-disabled": {
+          WebkitTextFillColor: "#000000",
+        },
+      }
+      
 
 return( 
     <Modal 
@@ -65,16 +75,20 @@ return(
       open={open}
       onClose={() => setOpen(false)}>
         <Stack spacing={1} direction="column" sx={style}>
-        { !creatingNewSong ? <Stack spacing={1} direction="row" justifyContent={'end'}>
-            <Button variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
+        <Stack spacing={1} direction="row" justifyContent={creatingNewSong? 'center' : 'end'}>
+            <Typography  color={'black'} variant="h5"> {headerText} </Typography>
+            { !creatingNewSong ?
+            <>
+            <Button  variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
             <EditIcon color={'warning'} fontSize='large'/>
             </Button>
-            <Button variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
-            <DeleteIcon color={'error'} fontSize='large'/>
-            </Button>
-        </Stack> : null }
+            <Button hidden={creatingNewSong} variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
+            <DeleteIcon  color={'error'} fontSize='large'/>
+            </Button></> : null }
+        </Stack> 
         <TextField
           disabled={!creatingNewSong}
+          sx={textFieldstyle}
           variant="outlined"
           margin="normal"
           required
@@ -87,6 +101,7 @@ return(
         />
         <TextField
           disabled={!creatingNewSong}
+          sx={textFieldstyle}
           variant="outlined"
           margin="normal"
           required
@@ -99,6 +114,7 @@ return(
         /> 
         <TextField
         disabled={!creatingNewSong}
+        sx={textFieldstyle}
         variant="outlined"
         margin="normal"
         required
@@ -111,6 +127,7 @@ return(
         />
         <TextField
         disabled={!creatingNewSong}
+        sx={textFieldstyle}
         variant="outlined"
         margin="normal"
         required
@@ -122,8 +139,9 @@ return(
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, genre: event.target.value })}
       />
       <Stack spacing={1} direction="row">
-      <TextField sx={{width: "50%"}}
+      <TextField
         disabled={!creatingNewSong}
+        sx={{...textFieldstyle, width: "50%"}}
         variant="outlined"
         margin="normal"
         required
@@ -135,8 +153,9 @@ return(
         value={song.year}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, year: parseInt(event.target.value) })}
       />
-        <TextField sx={{width: "50%"}}
+        <TextField
         disabled={!creatingNewSong}
+        sx={{...textFieldstyle, width: "50%"}}
         variant="outlined"
         margin="normal"
         required

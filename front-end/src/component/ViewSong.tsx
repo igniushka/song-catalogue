@@ -46,8 +46,6 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onSuccess})
     }
 
 return(
-    <>
-     <SongDetails submit={updateSong} open={open} song={song} updateSong={setUpdatedSong} creatingNewSong={false} setOpen={setOpen}/>
-    </>
+     <SongDetails headerText={'View Song Details'} submit={updateSong} open={open} song={song} updateSong={setUpdatedSong} creatingNewSong={false} setOpen={setOpen}/>
     )
 }
