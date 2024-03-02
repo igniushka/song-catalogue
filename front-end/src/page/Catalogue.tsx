@@ -168,7 +168,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
-      <NewSong open={openNewSong} setOpen={setOpenNewSong}/>
+      <NewSong user={user} open={openNewSong} setOpen={setOpenNewSong}/>
       <Stack padding={0}  spacing={0} >
       <Stack paddingBottom={1} spacing={1} width={"562px"} direction="row" justifyContent="start">
       <Button sx={{maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>

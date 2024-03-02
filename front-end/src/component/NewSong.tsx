@@ -8,13 +8,16 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import {useState } from 'react'
 import { SongDetails } from './SongDetails';
+import axios from "axios";
+
 
 interface Props {
+  user: User,
   open: boolean,
   setOpen: (open: boolean) => void,
+  onSuccess: () => void,
 }
-export const NewSong: React.FC<Props> =({open, setOpen}) => {
-    console.log(open)
+export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
     const newSong: Song = {
         id: "", 
         name: "",
@@ -26,25 +29,32 @@ export const NewSong: React.FC<Props> =({open, setOpen}) => {
     }
     const [song, setSong] = useState<Song>(newSong);
 
+    const create_song_request = {
+        method: 'post',
+        url: import.meta.env.VITE_BACK_END_BASE_URL + "/song",
+        data: song,
+        headers: {
+          user: user.username
+        }
+      }
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // setUsername(event.target.value);
-      };
-
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '30%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        borderRadius: 1,
-        p: 4,
-      };
+    const createSong = () =>{
+        if (user.username && user.password) {
+            axios(create_song_request)
+            .then((response) => {
+                if (response.status==200){
+                    onSuccess()
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }
 
 return(
-     <SongDetails open={open} song={song} updateSong={setSong} editable={true} setOpen={setOpen}/>
+    <>
+  <SongDetails submit={createSong} open={open} song={song} updateSong={setSong} editable={true} setOpen={setOpen}/>
+</>
     )
 }
