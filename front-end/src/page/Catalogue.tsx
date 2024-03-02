@@ -7,6 +7,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
+import Alert, { AlertColor } from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -35,6 +36,10 @@ interface Props{
     setUser: (newUser: User) => void;
 }
 
+interface Alert{
+  text: string,
+  severity: string
+}
 
 export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [originalSongList, setOriginalSongList] = useState<Song[]>([]);
@@ -49,7 +54,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [yearFilter, setYearFilter] = useState("");
     const [artistFilter, setArtistFilter] = useState("");
     const [openNewSong, setOpenNewSong] = useState(false);
-
+    const [message, setMessage] = useState<Alert>({text: "", severity: "warning"});
 
     const containerRef = useRef<HTMLElement>(null);
 
@@ -65,7 +70,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         }
       }
 
-    const getSongs = () =>{
+    const getSongs = () => {
         if (user.username && user.password) {
             axios(song_request)
             .then((response) => {
@@ -76,6 +81,12 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
                 console.log(error);
             })
         }
+    }
+
+    const onCreateSongSuccess = () =>{
+      setOpenNewSong(false);
+      setMessage({text: "New song created!", severity: "success"})
+      getSongs()
     }
 
   const toggleShowFilterRow = (event: unknown) => {
@@ -168,8 +179,11 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
-      <NewSong user={user} open={openNewSong} setOpen={setOpenNewSong}/>
-      <Stack padding={0}  spacing={0} >
+      <NewSong onSuccess={onCreateSongSuccess} user={user} open={openNewSong} setOpen={setOpenNewSong}/>
+      <Stack padding={0}  spacing={1} >
+      {message.text!=="" ? <Alert severity={message.severity as AlertColor} onClose={() => {setMessage({...message, text: "" })}}>
+      {message.text}
+    </Alert> : null} 
       <Stack paddingBottom={1} spacing={1} width={"562px"} direction="row" justifyContent="start">
       <Button sx={{maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
       <SortIcon color={showFilters? 'primary': 'disabled' } fontSize='large'/>
