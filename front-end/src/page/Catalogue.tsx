@@ -170,7 +170,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
         <Stack padding={0}  spacing={0}>
-        <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
+        { showFilters && <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
         <TextField sx={{width: '150px'}} size='small' label="Artist Search" type="search" />
         <TextField sx={{width: '150px'}} size='small' label="Year Search" type="search" />
         <FormControl sx={{ m: 1, minWidth: 80, maxHeight: 40}}>
@@ -194,7 +194,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
       <Button sx={{maxHeight: '40px'}} onClick={toggleSort} size='small'>
         {sortAscending ? <ArrowUpwardIcon fontSize="medium"></ArrowUpwardIcon> : <ArrowDownward fontSize="medium"></ArrowDownward>}
       </Button>
-      </Stack>
+      </Stack> }
       <Stack paddingBottom={1} spacing={1} direction="row" justifyContent="start">
       <FormControl  sx={{width: '80px', m: 1, maxHeight: 40}}>
         <InputLabel>Rows</InputLabel>
@@ -208,7 +208,9 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         </Select>
       </FormControl>
       <Pagination siblingCount={1} color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
-      <SortIcon onClick={toggleShowFilterRow} color='primary' fontSize='large'/>
+      <Button sx={{maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
+      <SortIcon color={showFilters? 'primary': 'disabled' } fontSize='large'/>
+      </Button>
       </Stack>
         <SongTable songs={processedSongs}  rowsPerPage={rowsPerPage} page={page}/>
         </Stack>
