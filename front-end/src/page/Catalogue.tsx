@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import {useRef, useState, useEffect } from 'react'
 import axios from "axios";
 import { Navigate } from 'react-router-dom';
 import { SongTable } from '../component/SongTable';
@@ -6,6 +6,7 @@ import { Paper } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,6 +20,7 @@ import Button from '@mui/material/Button';
 import { Height } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
 import SortIcon from '@mui/icons-material/Sort';
+import Slide from '@mui/material/Slide';
 
 
 enum Sort {
@@ -46,6 +48,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [showFilters, setShowFilters] = useState(false);
+    const containerRef = useRef<HTMLElement>(null);
 
 
     useEffect(() => getSongs, [])
@@ -74,19 +77,22 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     }
 
     const toggleShowFilterRow = (event: unknown) => {
-        if (showFilters){
-            setShowFilters(false);
-        } else {
-            setShowFilters(true);
-        }
+      setShowFilters(!showFilters)
+
+        // if (showFilters){
+        //     setShowFilters(false);
+        // } else {
+        //     setShowFilters(true);
+        // }
       }; 
 
   const toggleSort = (event: unknown) => {
-    if (sortAscending){
-        setSortAscending(false);
-    } else {
-        setSortAscending(true);
-    }
+    setSortAscending(!sortAscending)
+    // if (sortAscending){
+    //     setSortAscending(false);
+    // } else {
+    //     setSortAscending(true);
+    // }
   }; 
 
   const selectSortBy = (event: SelectChangeEvent<String>) => {
@@ -169,8 +175,11 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
-        <Stack padding={0}  spacing={0}>
-        { showFilters && <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
+        
+        <Stack padding={0}  spacing={0} >
+        <Box hidden={!showFilters} ref={containerRef}>
+        <Slide direction={"up"} in={showFilters} container={containerRef.current}>
+        <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
         <TextField sx={{width: '150px'}} size='small' label="Artist Search" type="search" />
         <TextField sx={{width: '150px'}} size='small' label="Year Search" type="search" />
         <FormControl sx={{ m: 1, minWidth: 80, maxHeight: 40}}>
@@ -194,7 +203,9 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
       <Button sx={{maxHeight: '40px'}} onClick={toggleSort} size='small'>
         {sortAscending ? <ArrowUpwardIcon fontSize="medium"></ArrowUpwardIcon> : <ArrowDownward fontSize="medium"></ArrowDownward>}
       </Button>
-      </Stack> }
+      </Stack> 
+      </Slide>
+        </Box>
       <Stack paddingBottom={1} spacing={1} direction="row" justifyContent="start">
       <FormControl  sx={{width: '80px', m: 1, maxHeight: 40}}>
         <InputLabel>Rows</InputLabel>
