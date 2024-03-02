@@ -27,10 +27,6 @@ enum Sort {
   Year = "Year",
   Name = "Name"
 }
-enum Filter {
-    Year = "Year",
-    Artist = "Artist"
-  }
 
 interface Props{
     user: User,
@@ -42,18 +38,20 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [originalSongList, setOriginalSongList] = useState<Song[]>([]);
     const [sortAscending, setSortAscending] = useState(false);
     const [processedSongs, setProcessedSongs] = useState<Song[]>([]);
-    const [filterBy, setFilterBy] = useState<Filter>(Filter.Artist)
+    // const [filterBy, setFilterBy] = useState<Filter>(Filter.Artist)
     const [sortBy, setSortBy] = useState<Sort>(Sort.Year)
     const [pageNum, setPageNum] = useState(0);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [showFilters, setShowFilters] = useState(false);
-    const containerRef = useRef<HTMLElement>(null);
+    const [yearFilter, setYearFilter] = useState("");
+    const [artistFilter, setArtistFilter] = useState("");
 
+    const containerRef = useRef<HTMLElement>(null);
 
     useEffect(() => getSongs, [])
     useEffect(()=> setPageNumTrigger(), [rowsPerPage, processedSongs])
-    useEffect(()=> sortAndFilterSongs(), [originalSongList, sortBy, sortAscending])
+    useEffect(()=> sortAndFilterSongs(), [artistFilter, yearFilter, originalSongList, sortBy, sortAscending])
 
       const song_request = {
         method: 'get',
@@ -76,23 +74,12 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         }
     }
 
-    const toggleShowFilterRow = (event: unknown) => {
+  const toggleShowFilterRow = (event: unknown) => {
       setShowFilters(!showFilters)
-
-        // if (showFilters){
-        //     setShowFilters(false);
-        // } else {
-        //     setShowFilters(true);
-        // }
       }; 
 
   const toggleSort = (event: unknown) => {
     setSortAscending(!sortAscending)
-    // if (sortAscending){
-    //     setSortAscending(false);
-    // } else {
-    //     setSortAscending(true);
-    // }
   }; 
 
   const selectSortBy = (event: SelectChangeEvent<String>) => {
@@ -108,19 +95,27 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     setSortBy(newSortType)
   }
 
-  const selectFilter = (event: SelectChangeEvent<String>) => {
-    let newFilterType;
-     switch (event.target.value){
-        case "Year":
-            newFilterType = Filter.Year;
-            break
-        default:
-            newFilterType = Filter.Artist;
-            break;
-    }
-    setFilterBy(newFilterType)
-  }
+  // const selectFilter = (event: SelectChangeEvent<String>) => {
+  //   let newFilterType;
+  //    switch (event.target.value){
+  //       case "Year":
+  //           newFilterType = Filter.Year;
+  //           break
+  //       default:
+  //           newFilterType = Filter.Artist;
+  //           break;
+  //   }
+  //   setFilterBy(newFilterType)
+  // }
 
+  
+  const handleYearFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setYearFilter(event.target.value);
+  };
+
+  const handleArtistFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setArtistFilter(event.target.value);
+  };
 
   const setPageNumTrigger = () => {
     console.log("setPageNumTrigger")
@@ -148,7 +143,14 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     const sortAndFilterSongs = () =>{
         // copy the array not to modify the state directly
-        const newSongList: Song[] = [...originalSongList];
+        let newSongList: Song[] = [...originalSongList];
+        if (artistFilter!==""){
+         newSongList = newSongList.filter(song => song.artist.toLowerCase().includes(artistFilter));
+        }
+        if (yearFilter!==""){
+          const yearNum = parseInt(yearFilter)
+          newSongList = newSongList.filter(song => song.year === yearNum);
+         }
         if (sortBy === Sort.Year){
             if (sortAscending) {
                 newSongList.sort((song_a, song_b) => song_a.year - song_b.year);
@@ -175,38 +177,11 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
-        
-        <Stack padding={0}  spacing={0} >
-        <Box hidden={!showFilters} ref={containerRef}>
-        <Slide direction={"up"} in={showFilters} container={containerRef.current}>
-        <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
-        <TextField sx={{width: '150px'}} size='small' label="Artist Search" type="search" />
-        <TextField sx={{width: '150px'}} size='small' label="Year Search" type="search" />
-        <FormControl sx={{ m: 1, minWidth: 80, maxHeight: 40}}>
-        <InputLabel>Filter</InputLabel>
-        <Select defaultValue="Artist" label="Filter" size="small"
-          value={filterBy}
-          onChange={selectFilter}>
-          <MenuItem value={"Artist"}>Artist</MenuItem>
-          <MenuItem value={"Year"}>Year</MenuItem>
-        </Select>
-      </FormControl>      
-      <FormControl sx={{ m: 1, minWidth: 80, maxHeight: 40}}>
-        <InputLabel>Sort</InputLabel>
-        <Select defaultValue="Year" label="Sort" size="small"
-          value={sortBy}
-          onChange={selectSortBy}>
-          <MenuItem value={"Year"}>Year</MenuItem>
-          <MenuItem value={"Name"}>Name</MenuItem>
-        </Select>
-      </FormControl>
-      <Button sx={{maxHeight: '40px'}} onClick={toggleSort} size='small'>
-        {sortAscending ? <ArrowUpwardIcon fontSize="medium"></ArrowUpwardIcon> : <ArrowDownward fontSize="medium"></ArrowDownward>}
-      </Button>
-      </Stack> 
-      </Slide>
-        </Box>
+      <Stack padding={0}  spacing={0} >
       <Stack paddingBottom={1} spacing={1} direction="row" justifyContent="start">
+      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
+      <SortIcon color={showFilters? 'primary': 'disabled' } fontSize='large'/>
+      </Button>
       <FormControl  sx={{width: '80px', m: 1, maxHeight: 40}}>
         <InputLabel>Rows</InputLabel>
         <Select sx={{}} defaultValue="Ten" label="Rows" size="small"
@@ -218,11 +193,28 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
           <MenuItem value={100}>100</MenuItem>
         </Select>
       </FormControl>
-      <Pagination siblingCount={1} color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
-      <Button sx={{maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
-      <SortIcon color={showFilters? 'primary': 'disabled' } fontSize='large'/>
-      </Button>
+      <Pagination siblingCount={0} color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
       </Stack>
+      <Box hidden={!showFilters} ref={containerRef}>
+        <Slide direction={"down"} in={showFilters} container={containerRef.current}>
+        <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
+        <TextField onChange={handleArtistFilterChange} value={artistFilter} sx={{width: '30%'}} size='small' label="Artist Search" type="search" />
+        <TextField onChange={handleYearFilterChange} value={yearFilter} type="number" sx={{width: '30%'}} size='small' label="Year Search" />
+      <FormControl sx={{width: '30%', maxHeight: 40}}>
+        <InputLabel>Sort</InputLabel>
+        <Select defaultValue="Year" label="Sort" size="small"
+          value={sortBy}
+          onChange={selectSortBy}>
+          <MenuItem value={"Year"}>Year</MenuItem>
+          <MenuItem value={"Name"}>Name</MenuItem>
+        </Select>
+      </FormControl>
+      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={toggleSort} size='small'>
+        {sortAscending ? <ArrowUpwardIcon fontSize="medium"></ArrowUpwardIcon> : <ArrowDownward fontSize="medium"></ArrowDownward>}
+      </Button>
+      </Stack> 
+      </Slide>
+        </Box>
         <SongTable songs={processedSongs}  rowsPerPage={rowsPerPage} page={page}/>
         </Stack>
     </Paper> : 

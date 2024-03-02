@@ -21,7 +21,7 @@ export const RegisterLogin: React.FC<Props> = ({headerText, buttonText, bottomTe
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
