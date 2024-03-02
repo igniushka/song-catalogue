@@ -3,6 +3,7 @@ import axios from "axios";
 import { Navigate } from 'react-router-dom';
 import { SongTable } from '../component/SongTable';
 import { Paper } from '@mui/material';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
@@ -21,7 +22,8 @@ import { Height } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
 import SortIcon from '@mui/icons-material/Sort';
 import Slide from '@mui/material/Slide';
-
+import {SongDetails} from '../component/SongDetails'
+import { NewSong } from '../component/NewSong';
 
 enum Sort {
   Year = "Year",
@@ -46,6 +48,8 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [showFilters, setShowFilters] = useState(false);
     const [yearFilter, setYearFilter] = useState("");
     const [artistFilter, setArtistFilter] = useState("");
+    const [openNewSong, setOpenNewSong] = useState(false);
+
 
     const containerRef = useRef<HTMLElement>(null);
 
@@ -94,19 +98,6 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     }
     setSortBy(newSortType)
   }
-
-  // const selectFilter = (event: SelectChangeEvent<String>) => {
-  //   let newFilterType;
-  //    switch (event.target.value){
-  //       case "Year":
-  //           newFilterType = Filter.Year;
-  //           break
-  //       default:
-  //           newFilterType = Filter.Artist;
-  //           break;
-  //   }
-  //   setFilterBy(newFilterType)
-  // }
 
   
   const handleYearFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,6 +168,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
+      <NewSong open={openNewSong} setOpen={setOpenNewSong}/>
       <Stack padding={0}  spacing={0} >
       <Stack paddingBottom={1} spacing={1} direction="row" justifyContent="start">
       <Button sx={{width: '10%', maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
@@ -194,6 +186,9 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         </Select>
       </FormControl>
       <Pagination siblingCount={0} color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
+      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={() => {setOpenNewSong(true)}} size='small'>
+      <AddBoxIcon color={"primary"} fontSize='large'/>
+      </Button>     
       </Stack>
       <Box hidden={!showFilters} ref={containerRef}>
         <Slide direction={"down"} in={showFilters} container={containerRef.current}>
