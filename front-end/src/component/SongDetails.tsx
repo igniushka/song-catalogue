@@ -4,22 +4,25 @@ import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import {useState } from 'react'
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
+import {Song} from '../model/SongModel'
 
 interface Props {
   song: Song,
   updateSong: (song: Song) => void,
-  editable: boolean,
+  creatingNewSong: boolean,
   open: boolean,
   setOpen: (song: boolean) => void,
   submit: () => void
 }
 
-export const SongDetails: React.FC<Props> =({song, updateSong, editable, open, setOpen, submit}) => {
+export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, open, setOpen, submit}) => {
     const [errorMessage, setErrorMessage] = useState("");
 
 
@@ -62,8 +65,16 @@ return(
       open={open}
       onClose={() => setOpen(false)}>
         <Stack spacing={1} direction="column" sx={style}>
+        { !creatingNewSong ? <Stack spacing={1} direction="row" justifyContent={'end'}>
+            <Button variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
+            <EditIcon color={'warning'} fontSize='large'/>
+            </Button>
+            <Button variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
+            <DeleteIcon color={'error'} fontSize='large'/>
+            </Button>
+        </Stack> : null }
         <TextField
-          disabled={!editable}
+          disabled={!creatingNewSong}
           variant="outlined"
           margin="normal"
           required
@@ -75,7 +86,7 @@ return(
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, name: event.target.value })}
         />
         <TextField
-          disabled={!editable}
+          disabled={!creatingNewSong}
           variant="outlined"
           margin="normal"
           required
@@ -87,7 +98,7 @@ return(
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, artist: event.target.value })}
         /> 
         <TextField
-        disabled={!editable}
+        disabled={!creatingNewSong}
         variant="outlined"
         margin="normal"
         required
@@ -99,7 +110,7 @@ return(
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, album: event.target.value })}
         />
         <TextField
-        disabled={!editable}
+        disabled={!creatingNewSong}
         variant="outlined"
         margin="normal"
         required
@@ -112,7 +123,7 @@ return(
       />
       <Stack spacing={1} direction="row">
       <TextField sx={{width: "50%"}}
-        disabled={!editable}
+        disabled={!creatingNewSong}
         variant="outlined"
         margin="normal"
         required
@@ -125,7 +136,7 @@ return(
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, year: parseInt(event.target.value) })}
       />
         <TextField sx={{width: "50%"}}
-        disabled={!editable}
+        disabled={!creatingNewSong}
         variant="outlined"
         margin="normal"
         required
@@ -141,7 +152,7 @@ return(
     {errorMessage!=="" ? <Alert severity="warning">
       {errorMessage}
     </Alert> : null}
-    {editable?
+    {creatingNewSong?
         <Button variant="contained" onClick={validateAndSubmit}>
          Submit
         </Button>

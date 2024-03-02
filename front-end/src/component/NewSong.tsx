@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import {useState } from 'react'
 import { SongDetails } from './SongDetails';
 import axios from "axios";
+import {Song, emptySong} from '../model/SongModel';
 
 
 interface Props {
@@ -18,16 +19,8 @@ interface Props {
   onSuccess: () => void,
 }
 export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
-    const newSong: Song = {
-        id: "", 
-        name: "",
-        artist: "",
-        album: "",
-        genre: "",
-        length: 0,
-        year: 0
-    }
-    const [song, setSong] = useState<Song>(newSong);
+
+    const [song, setSong] = useState<Song>(emptySong);
 
     const create_song_request = {
         method: 'post',
@@ -54,7 +47,7 @@ export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
 
 return(
     <>
-  <SongDetails submit={createSong} open={open} song={song} updateSong={setSong} editable={true} setOpen={setOpen}/>
+  <SongDetails submit={createSong} open={open} song={song} updateSong={setSong} creatingNewSong={true} setOpen={setOpen}/>
 </>
     )
 }

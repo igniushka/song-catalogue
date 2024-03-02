@@ -1,4 +1,4 @@
-interface Song {
+export interface Song {
     "id": string,
     "name": string,
     "artist":string,
@@ -6,4 +6,14 @@ interface Song {
     "genre": string,
     "length": number,
     "year": number
+}
+
+export const emptySong: Song = {
+    id: "", 
+    name: "",
+    artist: "",
+    album: "",
+    genre: "",
+    length: 0,
+    year: 0
 }

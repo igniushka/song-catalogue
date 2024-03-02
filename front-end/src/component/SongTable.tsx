@@ -19,6 +19,7 @@ import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { Height } from '@mui/icons-material';
+import { Song } from '../model/SongModel';
 
 interface Column {
   id: 'name' | 'artist' | 'album' | 'year';
@@ -37,12 +38,13 @@ const columns: readonly Column[] = [
 
 
 interface Props {
-   songs: Song[]
-   rowsPerPage: number
-   page: number
+   songs: Song[],
+   rowsPerPage: number,
+   page: number,
+   selectSong: (song: Song) => void,
 }
 
-export const SongTable: React.FC<Props> =({songs, rowsPerPage, page}) => {
+export const SongTable: React.FC<Props> =({songs, rowsPerPage, page, selectSong}) => {
   
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden'}}>
@@ -66,7 +68,7 @@ export const SongTable: React.FC<Props> =({songs, rowsPerPage, page}) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  <TableRow onClick={() => selectSong(row)} hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

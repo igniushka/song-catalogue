@@ -25,7 +25,8 @@ import SortIcon from '@mui/icons-material/Sort';
 import Slide from '@mui/material/Slide';
 import {SongDetails} from '../component/SongDetails'
 import { NewSong } from '../component/NewSong';
-
+import {Song, emptySong} from '../model/SongModel';
+import { ViewSong } from '../component/ViewSong';
 enum Sort {
   Year = "Year",
   Name = "Name"
@@ -45,7 +46,6 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [originalSongList, setOriginalSongList] = useState<Song[]>([]);
     const [sortAscending, setSortAscending] = useState(false);
     const [processedSongs, setProcessedSongs] = useState<Song[]>([]);
-    // const [filterBy, setFilterBy] = useState<Filter>(Filter.Artist)
     const [sortBy, setSortBy] = useState<Sort>(Sort.Year)
     const [pageNum, setPageNum] = useState(0);
     const [page, setPage] = useState(0);
@@ -55,6 +55,9 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [artistFilter, setArtistFilter] = useState("");
     const [openNewSong, setOpenNewSong] = useState(false);
     const [message, setMessage] = useState<Alert>({text: "", severity: "warning"});
+    const [selectedSong, selectSong] = useState<Song>(emptySong);
+    const [openSongDetails, setOpenSongDetails] = useState<boolean>(false);
+
 
     const containerRef = useRef<HTMLElement>(null);
 
@@ -89,6 +92,12 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
       getSongs()
     }
 
+    const onUpdateSongSuccess = () =>{
+      setOpenNewSong(false);
+      setMessage({text: "Song updated!", severity: "success"})
+      getSongs()
+    }
+
   const toggleShowFilterRow = (event: unknown) => {
       setShowFilters(!showFilters)
       }; 
@@ -96,6 +105,11 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
   const toggleSort = (event: unknown) => {
     setSortAscending(!sortAscending)
   }; 
+
+  const viewSongDetails = (song: Song) => {
+    selectSong(song)
+    setOpenSongDetails(true)
+  }
 
   const selectSortBy = (event: SelectChangeEvent<String>) => {
     let newSortType;
@@ -180,6 +194,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
       <NewSong onSuccess={onCreateSongSuccess} user={user} open={openNewSong} setOpen={setOpenNewSong}/>
+      <ViewSong song={selectedSong} onSuccess={onUpdateSongSuccess} user={user} open={openSongDetails} setOpen={setOpenSongDetails}/>
       <Stack padding={0}  spacing={1} >
       {message.text!=="" ? <Alert severity={message.severity as AlertColor} onClose={() => {setMessage({...message, text: "" })}}>
       {message.text}
@@ -224,7 +239,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
       </Stack> 
       </Slide>
         </Box>
-        <SongTable songs={processedSongs}  rowsPerPage={rowsPerPage} page={page}/>
+        <SongTable selectSong={viewSongDetails} songs={processedSongs}  rowsPerPage={rowsPerPage} page={page}/>
         </Stack>
     </Paper> : 
     <Navigate to="/login"/> }</>
