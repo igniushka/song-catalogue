@@ -170,8 +170,8 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
       <NewSong open={openNewSong} setOpen={setOpenNewSong}/>
       <Stack padding={0}  spacing={0} >
-      <Stack paddingBottom={1} spacing={1} direction="row" justifyContent="start">
-      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
+      <Stack paddingBottom={1} spacing={1} width={"562px"} direction="row" justifyContent="start">
+      <Button sx={{maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
       <SortIcon color={showFilters? 'primary': 'disabled' } fontSize='large'/>
       </Button>
       <FormControl  sx={{width: '80px', m: 1, maxHeight: 40}}>
@@ -186,13 +186,13 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         </Select>
       </FormControl>
       <Pagination siblingCount={0} color="primary" size='large' onChange={handleChangePage} page={page+1} count={pageNum} variant="outlined" shape="rounded" />
-      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={() => {setOpenNewSong(true)}} size='small'>
+      <Button sx={{width: '10%', maxHeight: '40px', minWidth: '0'}} onClick={() => {setOpenNewSong(true)}} size='small'>
       <AddBoxIcon color={"primary"} fontSize='large'/>
       </Button>     
       </Stack>
       <Box hidden={!showFilters} ref={containerRef}>
         <Slide direction={"down"} in={showFilters} container={containerRef.current}>
-        <Stack sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
+        <Stack width={"562px"} sx={{margin: '0px'}} paddingBottom={1} spacing={1} direction="row" justifyContent="start">
         <TextField onChange={handleArtistFilterChange} value={artistFilter} sx={{width: '30%'}} size='small' label="Artist Search" type="search" />
         <TextField onChange={handleYearFilterChange} value={yearFilter} type="number" sx={{width: '30%'}} size='small' label="Year Search" />
       <FormControl sx={{width: '30%', maxHeight: 40}}>
