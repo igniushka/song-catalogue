@@ -1,4 +1,4 @@
-interface User{
-    username?: string,
-    password?: string
-  }
+interface User {
+  username?: string,
+  password?: string
+}
