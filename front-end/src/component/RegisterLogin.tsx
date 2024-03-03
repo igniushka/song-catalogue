@@ -6,17 +6,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import Link from '@mui/material/Link';
+import { Message } from '../types/MessageAlert';
+import { Alert, AlertColor } from '@mui/material';
 
 interface Props {
   headerText: string,
   buttonText: string,
   bottomText: string,
-  link_path: string,
-  link_text: string,
-  on_submit: (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => void;
+  linkPath: string,
+  linkText: string,
+  message: Message,
+  setMessage : (message: Message) => void,
+  onSubmit: (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => void,
 }
 
-export const RegisterLogin: React.FC<Props> = ({headerText, buttonText, bottomText, link_path, link_text, on_submit}) => {
+export const RegisterLogin: React.FC<Props> = ({headerText, buttonText, bottomText, linkPath, linkText, message, setMessage, onSubmit}) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
@@ -58,17 +62,20 @@ return (
           value={password}
           onChange={handlePasswordChange}
         />
+       { message.text ? <Alert severity={message.severity} onClose={() => {setMessage({...message, text: "" })}}>
+        {message.text}
+        </Alert>  : null }
         <Button
           type="submit"
           fullWidth
           variant="contained"
           color="primary"
-          onClick={(event)=>on_submit(event, username, password)}
+          onClick={(event)=>onSubmit(event, username, password)}
         >
           {buttonText}
         </Button>
         <Typography component="h1" variant="h5">
-       {bottomText} <Link href={link_path}> {link_text} </Link>
+       {bottomText} <Link href={linkPath}> {linkText} </Link>
       </Typography>
       </Box>
         </Paper>
