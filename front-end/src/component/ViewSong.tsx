@@ -1,11 +1,5 @@
 
 
-import Modal from '@mui/material/Modal';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import {useState, useEffect } from 'react'
 import { SongDetails } from './SongDetails';
 import axios from "axios";

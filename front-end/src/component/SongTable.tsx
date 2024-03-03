@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Stack from '@mui/material/Stack';
-import Pagination from '@mui/material/Pagination';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import { FormHelperText } from '@mui/material';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownward from '@mui/icons-material/ArrowDownward';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import { Height } from '@mui/icons-material';
 import { Song } from '../types/Song';
 
 interface Column {

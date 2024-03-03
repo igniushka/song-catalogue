@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Example from '../Example.tsx'
-import {createBrowserRouter, Navigate, RouterProvider} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import PageNotFound from '../page/NotFound.tsx'
 import {Register} from '../page/Register.tsx'
 import {Login} from '../page/Login.tsx'

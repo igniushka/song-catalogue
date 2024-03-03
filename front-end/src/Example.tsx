@@ -5,9 +5,7 @@ import './Example.css'
 import { Navigate } from 'react-router-dom';
 
 function Example() {
-  const [count, setCount] = useState(0);
   return <Navigate to="/login" />
-
 }
 
 export default Example
