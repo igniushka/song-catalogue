@@ -28,6 +28,7 @@ import { NewSong } from '../component/NewSong';
 import {Song, emptySong} from '../types/Song';
 import { ViewSong } from '../component/ViewSong';
 import { Message } from '../types/MessageAlert';
+import { createBasicAuthHeader } from '../helper';
 enum Sort {
   Year = "Year",
   Name = "Name"
@@ -61,16 +62,17 @@ export  const Catalogue: React.FC<Props> =  ({user}) => {
     useEffect(() => setPageNumTrigger(), [rowsPerPage, processedSongs])
     useEffect(() => sortAndFilterSongs(), [artistFilter, yearFilter, originalSongList, sortBy, sortAscending])
 
-      const song_request = {
-        method: 'get',
-        url: import.meta.env.VITE_BACK_END_BASE_URL + "/song",
-        headers: {
-          user: user.username
-        }
-      }
 
     const getSongs = () => {
         if (user.username && user.password) {
+          const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
+          const song_request = {
+            method: 'get',
+            url: "/song",
+            headers: {
+              Authorization: basicAuthHeader
+            }
+          }
             axios(song_request)
             .then((response) => {
                 setOriginalSongList(response.data)
