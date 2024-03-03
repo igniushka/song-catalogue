@@ -33,8 +33,8 @@ public class BasicAuthFilter extends GenericFilterBean {
             ServletRequest request,
             ServletResponse response,
             FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
         try {
             // Read header value
             String basicAuth = httpRequest.getHeader("Authorization");
@@ -72,7 +72,7 @@ public class BasicAuthFilter extends GenericFilterBean {
                 setUnauthorisedResponse(httpResponse);
                 return;
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             setUnauthorisedResponse(httpResponse);
             return;
         }
