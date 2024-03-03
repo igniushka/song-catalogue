@@ -2,7 +2,7 @@ package song.catalogue.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import song.catalogue.demo.AES.EncryptionService;
+import song.catalogue.demo.security.EncryptionService;
 import song.catalogue.demo.exception.DuplicateEntityException;
 import song.catalogue.demo.exception.EntityNotFoundException;
 

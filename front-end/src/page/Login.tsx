@@ -7,7 +7,6 @@ interface Props{
     setUser: (newUser: User) => void;
 }
 export const Login: React.FC<Props> = ({user, setUser}) => {
-    console.log(user)
     const loginUrl = import.meta.env.VITE_BACK_END_BASE_URL + "/admin/user/authenticate"    
 
     const login = async (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => {

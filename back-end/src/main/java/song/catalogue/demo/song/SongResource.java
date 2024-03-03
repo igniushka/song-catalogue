@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +28,7 @@ public class SongResource {
         this.repository = repository;
     }
     @PostMapping
-    public ResponseEntity<String> createSong(@RequestBody SongModel song, @RequestHeader("user") String user){
+    public ResponseEntity<String> createSong(@RequestBody SongModel song, @RequestAttribute("user") String user){
         try {
             repository.createSong(user, song);
             return ResponseEntity.ok("Song created.");
@@ -40,7 +40,7 @@ public class SongResource {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateSong(@RequestBody SongModel song, @RequestHeader("user") String user){
+    public ResponseEntity<String> updateSong(@RequestBody SongModel song, @RequestAttribute("user") String user){
         try {
             repository.updateSong(user, song);
             return ResponseEntity.ok("Song updated.");
@@ -52,7 +52,7 @@ public class SongResource {
     }
 
     @GetMapping
-    public ResponseEntity getAllUserSongs(@RequestHeader("user") String user){
+    public ResponseEntity getAllUserSongs(@RequestAttribute("user") String user){
         try {
             var songs =  repository.getAllUserSongs(user);
             return ResponseEntity.ok().body(songs);
@@ -64,7 +64,7 @@ public class SongResource {
     }
 
     @DeleteMapping("/{song_id}")
-    public ResponseEntity deleteSong(@PathVariable String song_id, @RequestHeader("user") String user){
+    public ResponseEntity deleteSong(@PathVariable String song_id, @RequestAttribute("user") String user){
         try {
             repository.deleteSong(user, song_id);
             return ResponseEntity.ok().body(song_id);
@@ -74,6 +74,5 @@ public class SongResource {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
     }
-
 
 }

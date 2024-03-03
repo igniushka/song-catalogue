@@ -1,4 +1,3 @@
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
@@ -32,7 +31,7 @@ return (
     <Container maxWidth="xs">
         <Paper>
         <Box padding={1}>
-      <Typography component="h1" variant="h5">
+      <Typography component="h5" variant="h5">
         {headerText}
       </Typography>
         <TextField

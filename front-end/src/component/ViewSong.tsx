@@ -1,16 +1,10 @@
 
 
-import Modal from '@mui/material/Modal';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import {useState, useEffect } from 'react'
 import { SongDetails } from './SongDetails';
 import axios from "axios";
-import {Song} from '../model/SongModel';
-import { Message } from '../model/MessageAlert';
+import {Song} from '../types/Song';
+import { Message } from '../types/MessageAlert';
 import { AlertColor } from '@mui/material/Alert';
 
 

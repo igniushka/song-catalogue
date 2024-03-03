@@ -1,4 +1,4 @@
-package song.catalogue.demo.AES;
+package song.catalogue.demo.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.keygen.KeyGenerators;

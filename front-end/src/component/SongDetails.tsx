@@ -1,17 +1,15 @@
 
 
 import Modal from '@mui/material/Modal';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import {useState } from 'react'
+import {useState, useEffect} from 'react'
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import {Song} from '../model/SongModel'
+import {Song} from '../types/Song'
 
 
 interface Props {
@@ -29,6 +27,8 @@ interface Props {
 export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, open, setOpen, submit, headerText, onDelete}) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [editing, setEditing] = useState<boolean>(false);
+
+    useEffect(() => setEditing(false), [song])
 
       const validateAndSubmit = () => {
         setErrorMessage("")
