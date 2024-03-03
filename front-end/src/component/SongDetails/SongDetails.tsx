@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import { Song } from '../types/Song'
+import { Song } from '../../types/Song'
 
 
 interface Props {

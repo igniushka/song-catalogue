@@ -1,7 +1,7 @@
 
 
 import { useState } from 'react'
-import { SongDetails } from './SongDetails';
+import { SongDetails } from './SongDetails/SongDetails';
 import axios from "axios";
 import { Song, emptySong } from '../types/Song';
 import { Message } from '../types/MessageAlert';
