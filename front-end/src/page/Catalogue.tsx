@@ -55,7 +55,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [artistFilter, setArtistFilter] = useState("");
     const [openNewSong, setOpenNewSong] = useState(false);
     const [message, setMessage] = useState<Alert>({text: "", severity: "warning"});
-    const [selectedSong, selectSong] = useState<Song>(emptySong);
+    const [selectedSong, selectSong] = useState<Song>({...emptySong});
     const [openSongDetails, setOpenSongDetails] = useState<boolean>(false);
 
 
@@ -107,7 +107,8 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
   }; 
 
   const viewSongDetails = (song: Song) => {
-    selectSong(song)
+    console.log(song)
+    selectSong({...song})
     setOpenSongDetails(true)
   }
 

@@ -20,7 +20,7 @@ interface Props {
 }
 export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
 
-    const [song, setSong] = useState<Song>(emptySong);
+    const [song, setSong] = useState<Song>({...emptySong});
 
     const create_song_request = {
         method: 'post',

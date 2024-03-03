@@ -21,14 +21,14 @@ interface Props {
   open: boolean,
   setOpen: (song: boolean) => void,
   submit: () => void,
-  headerText: string
+  headerText: string,
+  onDelete: () => void,
 }
 
 
-export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, open, setOpen, submit, headerText}) => {
+export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, open, setOpen, submit, headerText, onDelete}) => {
     const [errorMessage, setErrorMessage] = useState("");
-
-
+    const [editing, setEditing] = useState<boolean>(false);
 
       const validateAndSubmit = () => {
         setErrorMessage("")
@@ -61,6 +61,7 @@ export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, 
         borderRadius: 1,
         p: 2,
       };
+
       const textFieldstyle = {
         color: 'primary',
         "& .MuiInputBase-input.Mui-disabled": {
@@ -79,15 +80,15 @@ return(
             <Typography  color={'black'} variant="h5"> {headerText} </Typography>
             { !creatingNewSong ?
             <>
-            <Button  variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
+            <Button  variant="outlined" sx={{maxHeight: '40px'}}  size='small' onClick={() => setEditing(!editing)}>
             <EditIcon color={'warning'} fontSize='large'/>
             </Button>
-            <Button hidden={creatingNewSong} variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
+            <Button onClick={() => onDelete()} hidden={creatingNewSong} variant="outlined" sx={{maxHeight: '40px'}}  size='small'>
             <DeleteIcon  color={'error'} fontSize='large'/>
             </Button></> : null }
         </Stack> 
         <TextField
-          disabled={!creatingNewSong}
+          disabled={!creatingNewSong && !editing}
           sx={textFieldstyle}
           variant="outlined"
           margin="normal"
@@ -100,7 +101,7 @@ return(
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, name: event.target.value })}
         />
         <TextField
-          disabled={!creatingNewSong}
+          disabled={!creatingNewSong && !editing}
           sx={textFieldstyle}
           variant="outlined"
           margin="normal"
@@ -113,8 +114,8 @@ return(
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, artist: event.target.value })}
         /> 
         <TextField
-        disabled={!creatingNewSong}
-        sx={textFieldstyle}
+          disabled={!creatingNewSong && !editing}
+          sx={textFieldstyle}
         variant="outlined"
         margin="normal"
         required
@@ -126,8 +127,8 @@ return(
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, album: event.target.value })}
         />
         <TextField
-        disabled={!creatingNewSong}
-        sx={textFieldstyle}
+          disabled={!creatingNewSong && !editing}
+          sx={textFieldstyle}
         variant="outlined"
         margin="normal"
         required
@@ -140,8 +141,8 @@ return(
       />
       <Stack spacing={1} direction="row">
       <TextField
-        disabled={!creatingNewSong}
-        sx={{...textFieldstyle, width: "50%"}}
+          disabled={!creatingNewSong && !editing}
+          sx={{...textFieldstyle, width: "50%"}}
         variant="outlined"
         margin="normal"
         required
@@ -154,8 +155,8 @@ return(
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSong({ ...song, year: parseInt(event.target.value) })}
       />
         <TextField
-        disabled={!creatingNewSong}
-        sx={{...textFieldstyle, width: "50%"}}
+          // disabled={!creatingNewSong && !editing}
+          sx={{...textFieldstyle, width: "50%"}}
         variant="outlined"
         margin="normal"
         required
@@ -171,12 +172,11 @@ return(
     {errorMessage!=="" ? <Alert severity="warning">
       {errorMessage}
     </Alert> : null}
-    {creatingNewSong?
+    {creatingNewSong || editing?
         <Button variant="contained" onClick={validateAndSubmit}>
          Submit
         </Button>
       : null }
-
         </Stack>
     </Modal>
     )
