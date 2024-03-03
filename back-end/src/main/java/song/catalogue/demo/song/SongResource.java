@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/song")
@@ -26,8 +25,9 @@ public class SongResource {
     public SongResource(SongRepository repository) {
         this.repository = repository;
     }
+
     @PostMapping
-    public ResponseEntity<String> createSong(@RequestBody SongModel song, @RequestAttribute("user") String user){
+    public ResponseEntity<String> createSong(@RequestBody SongModel song, @RequestAttribute("user") String user) {
         try {
             repository.createSong(user, song);
             return ResponseEntity.ok("Song created.");
@@ -39,7 +39,7 @@ public class SongResource {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateSong(@RequestBody SongModel song, @RequestAttribute("user") String user){
+    public ResponseEntity<String> updateSong(@RequestBody SongModel song, @RequestAttribute("user") String user) {
         try {
             repository.updateSong(user, song);
             return ResponseEntity.ok("Song updated.");
@@ -51,9 +51,9 @@ public class SongResource {
     }
 
     @GetMapping
-    public ResponseEntity getAllUserSongs(@RequestAttribute("user") String user){
+    public ResponseEntity getAllUserSongs(@RequestAttribute("user") String user) {
         try {
-            var songs =  repository.getAllUserSongs(user);
+            var songs = repository.getAllUserSongs(user);
             return ResponseEntity.ok().body(songs);
         } catch (Exception e) {
             var message = "An error occurred white trying to retrieve songs for user %s.".formatted(user);
@@ -63,7 +63,7 @@ public class SongResource {
     }
 
     @DeleteMapping("/{song_id}")
-    public ResponseEntity deleteSong(@PathVariable String song_id, @RequestAttribute("user") String user){
+    public ResponseEntity deleteSong(@PathVariable String song_id, @RequestAttribute("user") String user) {
         try {
             repository.deleteSong(user, song_id);
             return ResponseEntity.ok().body(song_id);
@@ -73,5 +73,4 @@ public class SongResource {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
         }
     }
-
 }

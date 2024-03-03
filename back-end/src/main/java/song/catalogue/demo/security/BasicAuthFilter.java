@@ -1,4 +1,5 @@
 package song.catalogue.demo.security;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -11,14 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import song.catalogue.demo.user.UserModel;
 import song.catalogue.demo.user.UserService;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 @Component
@@ -28,7 +23,7 @@ public class BasicAuthFilter extends GenericFilterBean {
     private final String adminSecret;
 
     @Autowired
-    BasicAuthFilter(UserService userService, @Value("${admin.secret}") String adminSecret){
+    BasicAuthFilter(UserService userService, @Value("${admin.secret}") String adminSecret) {
         this.userService = userService;
         this.adminSecret = adminSecret;
     }
@@ -38,8 +33,8 @@ public class BasicAuthFilter extends GenericFilterBean {
             ServletRequest request,
             ServletResponse response,
             FilterChain chain) throws ServletException, IOException {
-            HttpServletRequest httpRequest = (HttpServletRequest) request;
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
         try {
             // Read header value
             String basicAuth = httpRequest.getHeader("Authorization");
@@ -77,14 +72,14 @@ public class BasicAuthFilter extends GenericFilterBean {
                 setUnauthorisedResponse(httpResponse);
                 return;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             setUnauthorisedResponse(httpResponse);
             return;
         }
         chain.doFilter(request, response);
     }
 
-    private void setUnauthorisedResponse(HttpServletResponse httpResponse){
+    private void setUnauthorisedResponse(HttpServletResponse httpResponse) {
         httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 

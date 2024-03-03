@@ -8,20 +8,20 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class SongRepository  {
+public class SongRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SongRowMapper rowMapper;
 
     @Autowired
-    public SongRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, SongRowMapper rowMapper){
+    public SongRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, SongRowMapper rowMapper) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         this.rowMapper = rowMapper;
     }
 
-    public void createSong(String user, SongModel song){
+    public void createSong(String user, SongModel song) {
         var params = new MapSqlParameterSource();
-        params.addValue("username",user);
+        params.addValue("username", user);
         params.addValue("name", song.name());
         params.addValue("artist", song.artist());
         params.addValue("genre", song.genre());
@@ -31,9 +31,9 @@ public class SongRepository  {
         namedParameterJdbcTemplate.update(SongSqlConstants.INSERT_SONG, params);
     }
 
-    public void updateSong(String user, SongModel song){
+    public void updateSong(String user, SongModel song) {
         var params = new MapSqlParameterSource();
-        params.addValue("username",user);
+        params.addValue("username", user);
         params.addValue("id", song.id());
         params.addValue("name", song.name());
         params.addValue("artist", song.artist());
@@ -44,14 +44,14 @@ public class SongRepository  {
         namedParameterJdbcTemplate.update(SongSqlConstants.UPDATE_SONG, params);
     }
 
-    public void deleteSong(String user, String song_id){
+    public void deleteSong(String user, String song_id) {
         var params = new MapSqlParameterSource();
         params.addValue("username", user);
         params.addValue("id", song_id);
         namedParameterJdbcTemplate.update(SongSqlConstants.DELETE_SONG, params);
     }
 
-    public List<SongModel> getAllUserSongs(String user){
+    public List<SongModel> getAllUserSongs(String user) {
         var params = new MapSqlParameterSource();
         params.addValue("username", user);
         return namedParameterJdbcTemplate.query(SongSqlConstants.GET_ALL_SONGS_FOR_USER, params, rowMapper);

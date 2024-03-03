@@ -23,8 +23,9 @@ public class UserRepositoryIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
+
     @Test
-    public void testCreateUserSuccess(){
+    public void testCreateUserSuccess() {
 //      given
         var USERNAME = "username";
         var PASSWORD = "password";
