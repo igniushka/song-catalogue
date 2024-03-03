@@ -30,7 +30,7 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}
         if (user.username && user.password) {
             const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
             const update_song_request = {
-                method: 'post',
+                method: 'put',
                 url: "/song",
                 data: updatedSong,
                 headers: {
@@ -40,11 +40,11 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}
             axios(update_song_request)
             .then((response) => {
                 if (response.status==200){
-                    onResponse({text: 'Song created!', severity: 'success' as AlertColor})
+                    onResponse({text: 'Song updated!', severity: 'success' as AlertColor})
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                onResponse({text: 'Faled to update song', severity: 'error' as AlertColor})
             })
         }
     }
@@ -56,7 +56,7 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}
             const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
             const delete_song_request = {
                 method: 'delete',
-                url: import.meta.env.VITE_BACK_END_BASE_URL + "/song/" + updatedSong.id,
+                url: "/song/" + updatedSong.id,
                 headers: {
                     Authorization: basicAuthHeader
                 }
@@ -67,8 +67,8 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}
                     onResponse({text: 'Song deleted!', severity: 'success' as AlertColor})
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                onResponse({text: 'Faled to delete song', severity: 'error' as AlertColor})
             })
         }
     }

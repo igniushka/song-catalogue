@@ -19,6 +19,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "^/song/.*": {
+      target: "http://localhost:8081/song/",
+      changeOrigin: true,
+      secure: false,
+    },
     },
   },
   plugins: [react()],

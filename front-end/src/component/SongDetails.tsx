@@ -28,7 +28,8 @@ export const SongDetails: React.FC<Props> =({song, updateSong, creatingNewSong, 
     const [errorMessage, setErrorMessage] = useState("");
     const [editing, setEditing] = useState<boolean>(false);
 
-    useEffect(() => setEditing(false), [song])
+
+    useEffect(() => setEditing(false), [open])
 
       const validateAndSubmit = () => {
         setErrorMessage("")
