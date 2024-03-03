@@ -27,6 +27,7 @@ import {SongDetails} from '../component/SongDetails'
 import { NewSong } from '../component/NewSong';
 import {Song, emptySong} from '../model/SongModel';
 import { ViewSong } from '../component/ViewSong';
+import { Message } from '../model/MessageAlert';
 enum Sort {
   Year = "Year",
   Name = "Name"
@@ -37,10 +38,6 @@ interface Props{
     setUser: (newUser: User) => void;
 }
 
-interface Alert{
-  text: string,
-  severity: string
-}
 
 export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [originalSongList, setOriginalSongList] = useState<Song[]>([]);
@@ -54,7 +51,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     const [yearFilter, setYearFilter] = useState("");
     const [artistFilter, setArtistFilter] = useState("");
     const [openNewSong, setOpenNewSong] = useState(false);
-    const [message, setMessage] = useState<Alert>({text: "", severity: "warning"});
+    const [message, setMessage] = useState<Message>({text: "", severity: "warning"});
     const [selectedSong, selectSong] = useState<Song>({...emptySong});
     const [openSongDetails, setOpenSongDetails] = useState<boolean>(false);
 
@@ -86,15 +83,15 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
         }
     }
 
-    const onCreateSongSuccess = () =>{
+    const onCreateSongResponse = (message: Message) =>{
       setOpenNewSong(false);
-      setMessage({text: "New song created!", severity: "success"})
+      setMessage({text: message.text, severity: message.severity})
       getSongs()
     }
 
-    const onUpdateSongSuccess = () =>{
-      setOpenNewSong(false);
-      setMessage({text: "Song updated!", severity: "success"})
+    const onUpdateSongResponse = (message: Message) =>{
+      setOpenSongDetails(false);
+      setMessage({text: message.text, severity: message.severity})
       getSongs()
     }
 
@@ -194,10 +191,10 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     return <>{user.username && user.password ?
     <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
-      <NewSong onSuccess={onCreateSongSuccess} user={user} open={openNewSong} setOpen={setOpenNewSong}/>
-      <ViewSong song={selectedSong} onSuccess={onUpdateSongSuccess} user={user} open={openSongDetails} setOpen={setOpenSongDetails}/>
+      <NewSong onResponse={onCreateSongResponse} user={user} open={openNewSong} setOpen={setOpenNewSong}/>
+      <ViewSong song={selectedSong} onResponse={onUpdateSongResponse} user={user} open={openSongDetails} setOpen={setOpenSongDetails}/>
       <Stack padding={0}  spacing={1} >
-      {message.text!=="" ? <Alert severity={message.severity as AlertColor} onClose={() => {setMessage({...message, text: "" })}}>
+      {message.text!=="" ? <Alert severity={message.severity} onClose={() => {setMessage({...message, text: "" })}}>
       {message.text}
     </Alert> : null} 
       <Stack paddingBottom={1} spacing={1} width={"562px"} direction="row" justifyContent="start">
@@ -245,4 +242,3 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     </Paper> : 
     <Navigate to="/login"/> }</>
 }
-      

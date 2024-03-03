@@ -9,7 +9,9 @@ import TextField from '@mui/material/TextField';
 import {useState, useEffect } from 'react'
 import { SongDetails } from './SongDetails';
 import axios from "axios";
-import {Song, emptySong} from '../model/SongModel';
+import {Song} from '../model/SongModel';
+import { Message } from '../model/MessageAlert';
+import { AlertColor } from '@mui/material/Alert';
 
 
 interface Props {
@@ -17,9 +19,9 @@ interface Props {
   user: User,
   open: boolean,
   setOpen: (open: boolean) => void,
-  onSuccess: () => void,
+  onResponse: (message: Message) => void,
 }
-export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onSuccess}) => {
+export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}) => {
     const [updatedSong, setUpdatedSong] = useState<Song>({...song});
     const update_song_request = {
         method: 'post',
@@ -41,7 +43,7 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onSuccess})
             axios(update_song_request)
             .then((response) => {
                 if (response.status==200){
-                    onSuccess()
+                    onResponse({text: 'Song created!', severity: 'success' as AlertColor})
                 }
             })
             .catch((error) => {
@@ -64,7 +66,7 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onSuccess})
             axios(delete_song_request)
             .then((response) => {
                 if (response.status==200){
-                    onSuccess()
+                    onResponse({text: 'Song deleted!', severity: 'success' as AlertColor})
                 }
             })
             .catch((error) => {

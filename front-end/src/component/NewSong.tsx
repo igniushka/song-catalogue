@@ -10,15 +10,17 @@ import {useState } from 'react'
 import { SongDetails } from './SongDetails';
 import axios from "axios";
 import {Song, emptySong} from '../model/SongModel';
+import { Message } from '../model/MessageAlert';
+import { AlertColor } from '@mui/material';
 
 
 interface Props {
   user: User,
   open: boolean,
   setOpen: (open: boolean) => void,
-  onSuccess: () => void,
+  onResponse: (message: Message) => void,
 }
-export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
+export const NewSong: React.FC<Props> =({user, open, setOpen, onResponse}) => {
 
     const [song, setSong] = useState<Song>({...emptySong});
 
@@ -36,7 +38,7 @@ export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
             axios(create_song_request)
             .then((response) => {
                 if (response.status==200){
-                    onSuccess()
+                  onResponse({text: 'Song created!', severity: 'success' as AlertColor})
                 }
             })
             .catch((error) => {
@@ -46,8 +48,6 @@ export const NewSong: React.FC<Props> =({user, open, setOpen, onSuccess}) => {
     }
 
 return(
-    <>
-  <SongDetails  headerText={'Create new song'}  submit={createSong} open={open} song={song} updateSong={setSong} creatingNewSong={true} setOpen={setOpen}/>
-</>
+  <SongDetails  headerText={'Create new song'}  submit={createSong} open={open} song={song} updateSong={setSong} creatingNewSong={true} setOpen={setOpen} onDelete={()=>{}}/>
     )
 }
