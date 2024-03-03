@@ -4,26 +4,20 @@ import { Navigate } from 'react-router-dom';
 import { SongTable } from '../component/SongTable';
 import { Paper } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
-import Alert, { AlertColor } from '@mui/material/Alert';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { FormHelperText } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { Height } from '@mui/icons-material';
 import TextField from '@mui/material/TextField';
 import SortIcon from '@mui/icons-material/Sort';
 import Slide from '@mui/material/Slide';
-import {SongDetails} from '../component/SongDetails'
 import { NewSong } from '../component/NewSong';
 import {Song, emptySong} from '../types/Song';
 import { ViewSong } from '../component/ViewSong';
@@ -96,16 +90,7 @@ export  const Catalogue: React.FC<Props> =  ({user}) => {
       getSongs()
     }
 
-  const toggleShowFilterRow = (event: unknown) => {
-      setShowFilters(!showFilters)
-      }; 
-
-  const toggleSort = (event: unknown) => {
-    setSortAscending(!sortAscending)
-  }; 
-
   const viewSongDetails = (song: Song) => {
-    console.log(song)
     selectSong({...song})
     setOpenSongDetails(true)
   }
@@ -136,22 +121,17 @@ export  const Catalogue: React.FC<Props> =  ({user}) => {
     console.log("setPageNumTrigger")
     setPageNum(Math.ceil(processedSongs.length/rowsPerPage))
   }
-  const changePage = (newPage: number) => {
-    console.log("changePage")
-    console.log(newPage)
-    setPage(newPage);
-  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     console.log("handleChangePage")
     newPage-=1
-    changePage(newPage);
+    setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
     console.log("handleChangeRowsPerPage")
     setRowsPerPage(+event.target.value);
-    changePage(0);
+    setPage(0);
     console.log("changed page")
   };
 
@@ -199,7 +179,7 @@ export  const Catalogue: React.FC<Props> =  ({user}) => {
       {message.text}
     </Alert> : null} 
       <Stack paddingBottom={1} spacing={1} width={"562px"} direction="row" justifyContent="start">
-      <Button sx={{maxHeight: '40px'}} onClick={toggleShowFilterRow} size='small'>
+      <Button sx={{maxHeight: '40px'}} onClick={()=> setShowFilters(!showFilters)} size='small'>
       <SortIcon color={showFilters? 'primary': 'disabled' } fontSize='large'/>
       </Button>
       <FormControl  sx={{width: '80px', m: 1, maxHeight: 40}}>
@@ -232,7 +212,7 @@ export  const Catalogue: React.FC<Props> =  ({user}) => {
           <MenuItem value={"Name"}>Name</MenuItem>
         </Select>
       </FormControl>
-      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={toggleSort} size='small'>
+      <Button sx={{width: '10%', maxHeight: '40px'}} onClick={()=> setSortAscending(!sortAscending)} size='small'>
         {sortAscending ? <ArrowUpwardIcon fontSize="medium"></ArrowUpwardIcon> : <ArrowDownward fontSize="medium"></ArrowDownward>}
       </Button>
       </Stack> 

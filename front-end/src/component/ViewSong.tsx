@@ -6,6 +6,7 @@ import axios from "axios";
 import {Song} from '../types/Song';
 import { Message } from '../types/MessageAlert';
 import { AlertColor } from '@mui/material/Alert';
+import { createBasicAuthHeader } from '../helper';
 
 
 interface Props {
@@ -17,14 +18,7 @@ interface Props {
 }
 export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}) => {
     const [updatedSong, setUpdatedSong] = useState<Song>({...song});
-    const update_song_request = {
-        method: 'post',
-        url: import.meta.env.VITE_BACK_END_BASE_URL + "/song",
-        data: updatedSong,
-        headers: {
-          user: user.username
-        }
-      }
+
 
     const renewSong = () => {
         setUpdatedSong({...song})
@@ -34,6 +28,15 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}
 
     const updateSong = () => {
         if (user.username && user.password) {
+            const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
+            const update_song_request = {
+                method: 'post',
+                url: "/song",
+                data: updatedSong,
+                headers: {
+                  Authorization: basicAuthHeader
+                }
+              }
             axios(update_song_request)
             .then((response) => {
                 if (response.status==200){
@@ -46,17 +49,18 @@ export const ViewSong: React.FC<Props> =({song, user, open, setOpen, onResponse}
         }
     }
 
-    const delete_song_request = {
-        method: 'delete',
-        url: import.meta.env.VITE_BACK_END_BASE_URL + "/song/" + updatedSong.id,
-        headers: {
-          user: user.username
-        }
-      }
+
 
     const deleteSong = () => {
-        console.log(updatedSong)
         if (user.username && user.password) {
+            const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
+            const delete_song_request = {
+                method: 'delete',
+                url: import.meta.env.VITE_BACK_END_BASE_URL + "/song/" + updatedSong.id,
+                headers: {
+                    Authorization: basicAuthHeader
+                }
+              }
             axios(delete_song_request)
             .then((response) => {
                 if (response.status==200){
