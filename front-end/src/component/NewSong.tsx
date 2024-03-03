@@ -9,8 +9,8 @@ import TextField from '@mui/material/TextField';
 import {useState } from 'react'
 import { SongDetails } from './SongDetails';
 import axios from "axios";
-import {Song, emptySong} from '../model/SongModel';
-import { Message } from '../model/MessageAlert';
+import {Song, emptySong} from '../types/Song';
+import { Message } from '../types/MessageAlert';
 import { AlertColor } from '@mui/material';
 
 

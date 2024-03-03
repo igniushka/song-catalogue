@@ -32,7 +32,7 @@ return (
     <Container maxWidth="xs">
         <Paper>
         <Box padding={1}>
-      <Typography component="h1" variant="h5">
+      <Typography component="h5" variant="h5">
         {headerText}
       </Typography>
         <TextField

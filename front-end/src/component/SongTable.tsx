@@ -19,7 +19,7 @@ import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { Height } from '@mui/icons-material';
-import { Song } from '../model/SongModel';
+import { Song } from '../types/Song';
 
 interface Column {
   id: 'name' | 'artist' | 'album' | 'year';

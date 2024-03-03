@@ -25,9 +25,9 @@ import SortIcon from '@mui/icons-material/Sort';
 import Slide from '@mui/material/Slide';
 import {SongDetails} from '../component/SongDetails'
 import { NewSong } from '../component/NewSong';
-import {Song, emptySong} from '../model/SongModel';
+import {Song, emptySong} from '../types/Song';
 import { ViewSong } from '../component/ViewSong';
-import { Message } from '../model/MessageAlert';
+import { Message } from '../types/MessageAlert';
 enum Sort {
   Year = "Year",
   Name = "Name"
@@ -35,11 +35,10 @@ enum Sort {
 
 interface Props{
     user: User,
-    setUser: (newUser: User) => void;
 }
 
 
-export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
+export  const Catalogue: React.FC<Props> =  ({user}) => {
     const [originalSongList, setOriginalSongList] = useState<Song[]>([]);
     const [sortAscending, setSortAscending] = useState(false);
     const [processedSongs, setProcessedSongs] = useState<Song[]>([]);
@@ -58,9 +57,9 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
 
     const containerRef = useRef<HTMLElement>(null);
 
-    useEffect(() => getSongs, [])
-    useEffect(()=> setPageNumTrigger(), [rowsPerPage, processedSongs])
-    useEffect(()=> sortAndFilterSongs(), [artistFilter, yearFilter, originalSongList, sortBy, sortAscending])
+    useEffect(() => getSongs(), [])
+    useEffect(() => setPageNumTrigger(), [rowsPerPage, processedSongs])
+    useEffect(() => sortAndFilterSongs(), [artistFilter, yearFilter, originalSongList, sortBy, sortAscending])
 
       const song_request = {
         method: 'get',
@@ -190,7 +189,7 @@ export  const Catalogue: React.FC<Props> =  ({user, setUser}) => {
     }
 
     return <>{user.username && user.password ?
-    <Paper sx={{width: '100%',  height: 'fit-content', display: 'flex', alignItems: 'start',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
+    <Paper sx={{width: 'fit-content',  height: 'fit-content', display: 'flex',  justifyContent: 'center', padding: '20px', marginTop: '-10%'}}>
       <NewSong onResponse={onCreateSongResponse} user={user} open={openNewSong} setOpen={setOpenNewSong}/>
       <ViewSong song={selectedSong} onResponse={onUpdateSongResponse} user={user} open={openSongDetails} setOpen={setOpenSongDetails}/>
       <Stack padding={0}  spacing={1} >

@@ -4,7 +4,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import PageNotFound from '../page/NotFound.tsx'
 import {Register} from '../page/Register.tsx'
 import {Login} from '../page/Login.tsx'
-import { Catalogue } from '../page/Catalogue.tsx'
+import { HomePage } from '../page/Homepage.tsx'
 
 
 export const App = ()  => {
@@ -26,7 +26,7 @@ export const App = ()  => {
     },
     {
         path: '/catalogue',
-        element: <Catalogue user={user} setUser={setUser}/>,
+        element: <HomePage user={user} setUser={setUser}/>,
       }
 
     
