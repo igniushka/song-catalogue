@@ -10,30 +10,10 @@ interface Props{
 }
 
 export const HomePage: React.FC<Props> = ({user, setUser}) => {
-    console.log(user)
-
-//     return  <Box sx={{ flexGrow: 1 }}>
-//     <AppBar position="static">
-//       <Toolbar>
-//         <IconButton
-//           size="large"
-//           edge="start"
-//           color="inherit"
-//           aria-label="menu"
-//           sx={{ mr: 2 }}
-//         >
-//         </IconButton>
-//         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-//           News
-//         </Typography>
-//         <Button color="inherit">Login</Button>
-//       </Toolbar>
-//     </AppBar>
-//     <Catalogue user={user}></Catalogue>
-//   </Box>
 
     
-      return <Stack width={'fit-content'} spacing={5} justifyItems={'end'} alignSelf={'end'} alignContent={'end'} justifyContent={'end'}>
+      return <>{user.username && user.password ? 
+      <Stack width={'fit-content'} spacing={5} justifyItems={'end'} alignSelf={'end'} alignContent={'end'} justifyContent={'end'}>
         <Grid container>
             <Grid item sm={6} justifyContent="start">
             <Box display="flex" justifyContent="flex-start">
@@ -44,7 +24,7 @@ export const HomePage: React.FC<Props> = ({user, setUser}) => {
             </Grid>
             <Grid item sm={6}>
                 <Box display="flex" justifyContent="flex-end">
-                <Button sx={{maxHeight: '40px'}}  size='small' onClick={() => {}}>
+                <Button sx={{maxHeight: '40px'}}  size='small' onClick={() => setUser({username: '', password: ''})}>
                 <LogoutIcon color={'warning'} fontSize='large'/>
             </Button>
                 </Box>
@@ -52,5 +32,6 @@ export const HomePage: React.FC<Props> = ({user, setUser}) => {
             </Grid>
         </Grid>
         <Catalogue user={user}></Catalogue>
-       </Stack>
+       </Stack> : < Navigate to="/login" /> }
+       </>
     }
