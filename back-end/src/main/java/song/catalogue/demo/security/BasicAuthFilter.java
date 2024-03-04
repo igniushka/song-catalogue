@@ -79,7 +79,7 @@ public class BasicAuthFilter extends GenericFilterBean {
         chain.doFilter(request, response);
     }
 
-    private void setUnauthorisedResponse(HttpServletResponse httpResponse) {
+    private void setUnauthorisedResponse(HttpServletResponse httpResponse){
         httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
