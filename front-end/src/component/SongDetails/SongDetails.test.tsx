@@ -56,6 +56,7 @@ describe('SongDetails component', () => {
     fireEvent.click(submitBtn)
     expect(submit).toHaveBeenCalledTimes(1)
   })
+
   it('should allow user to delete an existing song', async () => {
     render(<SongDetails song={song} creatingNewSong={creatingNewSong} updateSong={updateSong} submit={submit}
       setOpen={setOpen} onDelete={onDelete} headerText={headerText} open={true} />)
@@ -64,13 +65,14 @@ describe('SongDetails component', () => {
     fireEvent.click(deleteBtn)
     expect(onDelete).toHaveBeenCalledTimes(1)
   })
+
   it('should allow display an error when fields are missing for a new song', async () => {
     creatingNewSong = true;
     render(<SongDetails song={emptySong} creatingNewSong={creatingNewSong} updateSong={updateSong} submit={submit}
       setOpen={setOpen} onDelete={onDelete} headerText={headerText} open={true} />)
-      expect(await screen.findByText('Submit')).toBeInTheDocument();
-      const submitBtn = await screen.findByText('Submit');
-      fireEvent.click(submitBtn)
-      expect(await screen.findByText('Song name required!')).toBeInTheDocument();
-    })
+    expect(await screen.findByText('Submit')).toBeInTheDocument();
+    const submitBtn = await screen.findByText('Submit');
+    fireEvent.click(submitBtn)
+    expect(await screen.findByText('Song name required!')).toBeInTheDocument();
+  })
 });

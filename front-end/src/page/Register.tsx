@@ -9,7 +9,7 @@ import { useUser } from "../context/Authentication.tsx"
 
 
 export const Register = () => {
-  const {user, setUser} = useUser();
+  const { user, setUser } = useUser();
   const [message, setMessage] = useState<Message>({ text: '', severity: 'success' as AlertColor })
   const register = async (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => {
     event.preventDefault();
@@ -29,7 +29,6 @@ export const Register = () => {
         }
       })
       .catch((error) => {
-        console.log(error)
         if (error.status === 409) {
           setMessage({ text: "Please choose a different username", severity: "warning" as AlertColor })
         } else {

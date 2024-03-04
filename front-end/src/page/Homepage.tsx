@@ -6,7 +6,7 @@ import { useUser } from "../context/Authentication.tsx"
 
 
 export const HomePage = () => {
-    const {user, setUser} = useUser();
+    const { user, setUser } = useUser();
 
 
     return <>{user?.username && user?.password ?

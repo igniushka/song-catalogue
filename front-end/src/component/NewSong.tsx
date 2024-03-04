@@ -15,8 +15,8 @@ interface Props {
   setOpen: (open: boolean) => void,
   onResponse: (message: Message) => void,
 }
-export const NewSong: React.FC<Props> = ({open, setOpen, onResponse }) => {
-  const {user} = useUser();
+export const NewSong: React.FC<Props> = ({ open, setOpen, onResponse }) => {
+  const { user } = useUser();
   const [song, setSong] = useState<Song>({ ...emptySong });
 
 

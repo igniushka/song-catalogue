@@ -9,7 +9,7 @@ import { useUser } from "../context/Authentication.tsx"
 
 export const Login = () => {
     const [message, setMessage] = useState<Message>({ text: '', severity: 'success' as AlertColor })
-    const {user, setUser} = useUser();
+    const { user, setUser } = useUser();
 
     const login = (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => {
         const basicAuthHeader = createBasicAuthHeader('admin', import.meta.env.VITE_ADMIN_SECRET);
@@ -25,11 +25,11 @@ export const Login = () => {
         axios(loginRequest)
             .then((response) => {
                 if (response.status == 200) {
-                    setUser({ username, password})
+                    setUser({ username, password })
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                setMessage({text: 'Invalid username or password', severity: 'error' as AlertColor});
             })
     };
     return <>{user?.username && user?.password ? < Navigate to="/catalogue" />

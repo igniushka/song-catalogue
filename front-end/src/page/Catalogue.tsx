@@ -165,8 +165,8 @@ export const Catalogue = () => {
 
   return <>{user?.username && user?.password ?
     <Paper sx={{ width: 'fit-content', height: 'fit-content', display: 'flex', justifyContent: 'center', padding: '20px', marginTop: '-10%' }}>
-      <NewSong onResponse={onCreateSongResponse} user={user} open={openNewSong} setOpen={setOpenNewSong} />
-      <ViewSong song={selectedSong} onResponse={onUpdateSongResponse} user={user} open={openSongDetails} setOpen={setOpenSongDetails} />
+      <NewSong onResponse={onCreateSongResponse} open={openNewSong} setOpen={setOpenNewSong} />
+      <ViewSong song={selectedSong} onResponse={onUpdateSongResponse} open={openSongDetails} setOpen={setOpenSongDetails} />
       <Stack padding={0} spacing={1} >
         {message.text !== "" ? <Alert severity={message.severity} onClose={() => { setMessage({ ...message, text: "" }) }}>
           {message.text}

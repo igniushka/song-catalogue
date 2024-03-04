@@ -1,14 +1,14 @@
 import { createContext, useState, useContext } from "react";
 
 interface User {
-    username?: string,
-    password?: string
-  }
+  username?: string,
+  password?: string
+}
 
 interface AuthorisationContextType {
-    user: User | undefined;
-    setUser: (user: User | undefined) => void;
-  }
+  user: User | undefined;
+  setUser: (user: User | undefined) => void;
+}
 
 export const AuthenticationContext = createContext<AuthorisationContextType | undefined>(undefined);
 
@@ -24,7 +24,7 @@ interface Props {
   children: any
 }
 
-export const AuthorisationProvider: React.FC<Props> = ({children}) => {
+export const AuthorisationProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | undefined>(undefined)
 
   const contextValue = {
@@ -32,9 +32,9 @@ export const AuthorisationProvider: React.FC<Props> = ({children}) => {
     setUser,
   };
 
-  return(
-  <AuthenticationContext.Provider value={contextValue}>
-    {children}
+  return (
+    <AuthenticationContext.Provider value={contextValue}>
+      {children}
     </AuthenticationContext.Provider>)
 
 }
