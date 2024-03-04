@@ -10,4 +10,5 @@ public record SongModel(
         @JsonProperty("genre") String genre,
         @JsonProperty("length") int length,
         @JsonProperty("year") int year
-) {}
+) {
+}

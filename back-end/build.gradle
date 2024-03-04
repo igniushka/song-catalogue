@@ -27,22 +27,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 
-//			<dependency>
-//			<groupId>org.springframework.boot</groupId>
-//    <artifactId>spring-boot-starter-web</artifactId>
-//	<exclusions>
-//			<exclusion>
-//			<groupId>org.springframework.boot</groupId>
-//            <artifactId></artifactId>
-//			</exclusion>
-//    </exclusions>
-//	</dependency>
-//<dependency>
-//    <groupId></groupId>
-//			<artifactId></artifactId>
-//</dependency>
-
-
 	liquibaseRuntime 'org.liquibase:liquibase-core:4.24.0'
 	liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.1.1'
 	liquibaseRuntime 'info.picocli:picocli:4.7.5'

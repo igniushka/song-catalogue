@@ -1,7 +1,7 @@
 export interface Song {
     "id": string,
     "name": string,
-    "artist":string,
+    "artist": string,
     "album": string,
     "genre": string,
     "length": number,
@@ -9,7 +9,7 @@ export interface Song {
 }
 
 export const emptySong: Song = {
-    id: "", 
+    id: "",
     name: "",
     artist: "",
     album: "",

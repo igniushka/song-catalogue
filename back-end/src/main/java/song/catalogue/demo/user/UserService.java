@@ -33,8 +33,6 @@ public class UserService {
         if (existing_user == null){
                 var salt = encryptionService.generateSalt();
                 var encryptedPassword = encryptionService.encrypt(userModel.password(), salt);
-//                var encryptedPassword = encryptionService.encrypt(userModel.password());
-
             repository.createUser(userModel.username(), encryptedPassword, salt);
         } else {
             throw new DuplicateEntityException("Username already exists!");

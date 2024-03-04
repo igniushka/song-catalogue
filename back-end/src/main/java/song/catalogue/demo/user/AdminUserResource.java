@@ -6,15 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import song.catalogue.demo.exception.DuplicateEntityException;
 import song.catalogue.demo.exception.EntityNotFoundException;
 
-@CrossOrigin
 @RestController
 @RequestMapping("admin/user")
 public class AdminUserResource {
@@ -28,7 +23,10 @@ public class AdminUserResource {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody UserModel userModel){
+    public ResponseEntity<String> createUser(@RequestBody UserModel userModel, @RequestAttribute("user") String user){
+        if (!user.equals("admin")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             userService.createUser(userModel);
             return ResponseEntity.ok("User created successfully.");
@@ -44,7 +42,10 @@ public class AdminUserResource {
     }
 
         @PostMapping("/authenticate")
-    public ResponseEntity<String> validateUser(@RequestBody UserModel userModel){
+    public ResponseEntity<String> validateUser(@RequestBody UserModel userModel, @RequestAttribute("user") String user){
+        if (!user.equals("admin")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             userService.validateUser(userModel);
             return ResponseEntity.ok("User authenticated.");

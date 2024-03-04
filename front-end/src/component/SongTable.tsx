@@ -19,22 +19,22 @@ interface Column {
 const columns: readonly Column[] = [
   { id: 'name', label: 'Name', minWidth: 100 },
   { id: 'artist', label: 'Artist', minWidth: 100 },
-  { id: 'album', label: 'Album', minWidth: 100, align: 'right',},
-  { id: 'year', label: 'Year', minWidth: 100, align: 'right'},
+  { id: 'album', label: 'Album', minWidth: 100, align: 'right', },
+  { id: 'year', label: 'Year', minWidth: 100, align: 'right' },
 ];
 
 
 interface Props {
-   songs: Song[],
-   rowsPerPage: number,
-   page: number,
-   selectSong: (song: Song) => void,
+  songs: Song[],
+  rowsPerPage: number,
+  page: number,
+  selectSong: (song: Song) => void,
 }
 
-export const SongTable: React.FC<Props> =({songs, rowsPerPage, page, selectSong}) => {
-  
+export const SongTable: React.FC<Props> = ({ songs, rowsPerPage, page, selectSong }) => {
+
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden'}}>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer>
         <Table stickyHeader>
           <TableHead>

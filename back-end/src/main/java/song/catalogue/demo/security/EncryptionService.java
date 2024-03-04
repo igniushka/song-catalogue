@@ -30,11 +30,11 @@ public class EncryptionService {
 
     private final String secret;
 
-    public EncryptionService(@Value("${AES.secret}") String secret){
+    public EncryptionService(@Value("${AES.secret}") String secret) {
         this.secret = secret;
     }
 
-    public String generateSalt(){
+    public String generateSalt() {
         return KeyGenerators.string().generateKey();
     }
 
@@ -72,7 +72,6 @@ public class EncryptionService {
     private IvParameterSpec createIV() {
         //        create initialisation vector
         byte[] initialisationVector = new byte[16];
-        return  new IvParameterSpec(initialisationVector);
+        return new IvParameterSpec(initialisationVector);
     }
-
 }
