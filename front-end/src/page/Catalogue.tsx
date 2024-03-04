@@ -23,17 +23,15 @@ import { Song, emptySong } from '../types/Song';
 import { ViewSong } from '../component/ViewSong';
 import { Message } from '../types/MessageAlert';
 import { createBasicAuthHeader } from '../helper';
+import { useUser } from "../context/Authentication.tsx"
+
 enum Sort {
   Year = "Year",
   Name = "Name"
 }
 
-interface Props {
-  user: User,
-}
-
-
-export const Catalogue: React.FC<Props> = ({ user }) => {
+export const Catalogue = () => {
+  const {user} = useUser();
   const [originalSongList, setOriginalSongList] = useState<Song[]>([]);
   const [sortAscending, setSortAscending] = useState(false);
   const [processedSongs, setProcessedSongs] = useState<Song[]>([]);
@@ -58,7 +56,7 @@ export const Catalogue: React.FC<Props> = ({ user }) => {
 
 
   const getSongs = () => {
-    if (user.username && user.password) {
+    if (user?.username && user?.password) {
       const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
       const song_request = {
         method: 'get',
@@ -165,7 +163,7 @@ export const Catalogue: React.FC<Props> = ({ user }) => {
     setProcessedSongs(newSongList)
   }
 
-  return <>{user.username && user.password ?
+  return <>{user?.username && user?.password ?
     <Paper sx={{ width: 'fit-content', height: 'fit-content', display: 'flex', justifyContent: 'center', padding: '20px', marginTop: '-10%' }}>
       <NewSong onResponse={onCreateSongResponse} user={user} open={openNewSong} setOpen={setOpenNewSong} />
       <ViewSong song={selectedSong} onResponse={onUpdateSongResponse} user={user} open={openSongDetails} setOpen={setOpenSongDetails} />

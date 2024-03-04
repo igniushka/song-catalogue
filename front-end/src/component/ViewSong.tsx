@@ -7,17 +7,18 @@ import { Song } from '../types/Song';
 import { Message } from '../types/MessageAlert';
 import { AlertColor } from '@mui/material/Alert';
 import { createBasicAuthHeader } from '../helper';
+import { useUser } from "../context/Authentication.tsx"
 
 
 interface Props {
     song: Song,
-    user: User,
     open: boolean,
     setOpen: (open: boolean) => void,
     onResponse: (message: Message) => void,
 }
-export const ViewSong: React.FC<Props> = ({ song, user, open, setOpen, onResponse }) => {
+export const ViewSong: React.FC<Props> = ({ song, open, setOpen, onResponse }) => {
     const [updatedSong, setUpdatedSong] = useState<Song>({ ...song });
+    const {user} = useUser();
 
 
     const renewSong = () => {
@@ -27,7 +28,7 @@ export const ViewSong: React.FC<Props> = ({ song, user, open, setOpen, onRespons
 
 
     const updateSong = () => {
-        if (user.username && user.password) {
+        if (user?.username && user?.password) {
             const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
             const update_song_request = {
                 method: 'put',
@@ -52,7 +53,7 @@ export const ViewSong: React.FC<Props> = ({ song, user, open, setOpen, onRespons
 
 
     const deleteSong = () => {
-        if (user.username && user.password) {
+        if (user?.username && user?.password) {
             const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
             const delete_song_request = {
                 method: 'delete',
