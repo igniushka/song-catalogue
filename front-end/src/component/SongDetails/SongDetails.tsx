@@ -81,10 +81,10 @@ export const SongDetails: React.FC<Props> = ({ song, updateSong, creatingNewSong
           <Typography color={'black'} variant="h5"> {headerText} </Typography>
           {!creatingNewSong ?
             <>
-              <Button variant="outlined" sx={{ maxHeight: '40px' }} size='small' onClick={() => setEditing(!editing)}>
+              <Button aria-label='edit' variant="outlined" sx={{ maxHeight: '40px' }} size='small' onClick={() => setEditing(!editing)}>
                 <EditIcon color={'warning'} fontSize='large' />
               </Button>
-              <Button onClick={() => onDelete()} hidden={creatingNewSong} variant="outlined" sx={{ maxHeight: '40px' }} size='small'>
+              <Button aria-label='delete' onClick={() => onDelete()} hidden={creatingNewSong} variant="outlined" sx={{ maxHeight: '40px' }} size='small'>
                 <DeleteIcon color={'error'} fontSize='large' />
               </Button></> : null}
         </Stack>
