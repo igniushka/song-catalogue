@@ -20,7 +20,6 @@ export const NewSong: React.FC<Props> = ({ user, open, setOpen, onResponse }) =>
   const [song, setSong] = useState<Song>({ ...emptySong });
 
 
-
   const createSong = () => {
     if (user.username && user.password) {
       const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
@@ -36,11 +35,13 @@ export const NewSong: React.FC<Props> = ({ user, open, setOpen, onResponse }) =>
       axios(create_song_request)
         .then((response) => {
           if (response.status == 200) {
+            setSong({ ...emptySong })
             onResponse({ text: 'Song created!', severity: 'success' as AlertColor })
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          setSong({ ...emptySong })
+          onResponse({ text: 'Failed to create song', severity: 'error' as AlertColor })
         })
     }
   }

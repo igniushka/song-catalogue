@@ -5,7 +5,7 @@ import { SongTable } from '../component/SongTable';
 import { Paper } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Stack from '@mui/material/Stack';
-import Alert from '@mui/material/Alert';
+import Alert, { AlertColor } from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -70,10 +70,9 @@ export const Catalogue: React.FC<Props> = ({ user }) => {
       axios(song_request)
         .then((response) => {
           setOriginalSongList(response.data)
-          console.log("Song list Set!")
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          setMessage({text:'Failed to retrieve songs', severity: 'error' as AlertColor})
         })
     }
   }
@@ -118,21 +117,17 @@ export const Catalogue: React.FC<Props> = ({ user }) => {
   };
 
   const setPageNumTrigger = () => {
-    console.log("setPageNumTrigger")
     setPageNum(Math.ceil(processedSongs.length / rowsPerPage))
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    console.log("handleChangePage")
     newPage -= 1
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
-    console.log("handleChangeRowsPerPage")
     setRowsPerPage(+event.target.value);
     setPage(0);
-    console.log("changed page")
   };
 
 
