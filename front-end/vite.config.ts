@@ -28,8 +28,3 @@ export default defineConfig({
   },
   plugins: [react()],
 })
-
-// export default defineConfig({
-
-//   // some other configuration
-// })
