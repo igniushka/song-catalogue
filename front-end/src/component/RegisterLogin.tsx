@@ -74,7 +74,7 @@ export const RegisterLogin: React.FC<Props> = ({ headerText, buttonText, bottomT
           >
             {buttonText}
           </Button>
-          <Typography component="h1" variant="h5">
+          <Typography component="h6" variant="h6">
             {bottomText} <Link href={linkPath}> {linkText} </Link>
           </Typography>
         </Box>
