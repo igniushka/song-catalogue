@@ -62,9 +62,6 @@ export const RegisterLogin: React.FC<Props> = ({ headerText, buttonText, bottomT
             value={password}
             onChange={handlePasswordChange}
           />
-          {message.text ? <Alert severity={message.severity} onClose={() => { setMessage({ ...message, text: "" }) }}>
-            {message.text}
-          </Alert> : null}
           <Button
             type="submit"
             fullWidth
@@ -74,6 +71,9 @@ export const RegisterLogin: React.FC<Props> = ({ headerText, buttonText, bottomT
           >
             {buttonText}
           </Button>
+          {message.text ? <Alert severity={message.severity} onClose={() => { setMessage({ ...message, text: "" }) }}>
+            {message.text}
+          </Alert> : null}
           <Typography component="h6" variant="h6">
             {bottomText} <Link href={linkPath}> {linkText} </Link>
           </Typography>

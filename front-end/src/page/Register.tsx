@@ -5,14 +5,11 @@ import { useState } from "react";
 import { Message } from "../types/MessageAlert";
 import { AlertColor } from "@mui/material";
 import { createBasicAuthHeader } from "../helper";
+import { useUser } from "../context/Authentication.tsx"
 
 
-interface Props {
-  user: User,
-  setUser: (newUser: User) => void;
-}
-
-export const Register: React.FC<Props> = ({ user, setUser }) => {
+export const Register = () => {
+  const { user, setUser } = useUser();
   const [message, setMessage] = useState<Message>({ text: '', severity: 'success' as AlertColor })
   const register = async (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => {
     event.preventDefault();
@@ -32,7 +29,6 @@ export const Register: React.FC<Props> = ({ user, setUser }) => {
         }
       })
       .catch((error) => {
-        console.log(error)
         if (error.status === 409) {
           setMessage({ text: "Please choose a different username", severity: "warning" as AlertColor })
         } else {
@@ -40,7 +36,7 @@ export const Register: React.FC<Props> = ({ user, setUser }) => {
         }
       })
   };
-  return <>{user.username && user.password ? < Navigate to="/catalogue" /> : <RegisterLogin
+  return <>{user?.username && user?.password ? < Navigate to="/catalogue" /> : <RegisterLogin
     headerText="Create an account"
     buttonText="Register"
     bottomText="Have an account?"

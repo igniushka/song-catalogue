@@ -2,16 +2,14 @@ import { Navigate } from 'react-router-dom';
 import { Catalogue } from "./Catalogue";
 import { Box, Button, Grid, Stack, Typography, } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
-
-interface Props {
-    user: User,
-    setUser: (newUser: User) => void;
-}
-
-export const HomePage: React.FC<Props> = ({ user, setUser }) => {
+import { useUser } from "../context/Authentication.tsx"
 
 
-    return <>{user.username && user.password ?
+export const HomePage = () => {
+    const { user, setUser } = useUser();
+
+
+    return <>{user?.username && user?.password ?
         <Stack width={'fit-content'} spacing={5} justifyItems={'end'} alignSelf={'end'} alignContent={'end'} justifyContent={'end'}>
             <Grid container>
                 <Grid item sm={6} justifyContent="start">
@@ -29,7 +27,7 @@ export const HomePage: React.FC<Props> = ({ user, setUser }) => {
                     </Box>
                 </Grid>
             </Grid>
-            <Catalogue user={user}></Catalogue>
+            <Catalogue></Catalogue>
         </Stack> : < Navigate to="/login" />}
     </>
 }

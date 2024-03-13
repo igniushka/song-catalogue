@@ -7,21 +7,21 @@ import { Song, emptySong } from '../types/Song';
 import { Message } from '../types/MessageAlert';
 import { AlertColor } from '@mui/material';
 import { createBasicAuthHeader } from '../helper';
+import { useUser } from "../context/Authentication.tsx"
 
 
 interface Props {
-  user: User,
   open: boolean,
   setOpen: (open: boolean) => void,
   onResponse: (message: Message) => void,
 }
-export const NewSong: React.FC<Props> = ({ user, open, setOpen, onResponse }) => {
-
+export const NewSong: React.FC<Props> = ({ open, setOpen, onResponse }) => {
+  const { user } = useUser();
   const [song, setSong] = useState<Song>({ ...emptySong });
 
 
   const createSong = () => {
-    if (user.username && user.password) {
+    if (user?.username && user?.password) {
       const basicAuthHeader = createBasicAuthHeader(user.username, user.password);
       const create_song_request = {
         method: 'post',

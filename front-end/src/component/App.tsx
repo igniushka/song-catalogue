@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Example from '../Example.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import PageNotFound from '../page/NotFound.tsx'
@@ -8,7 +7,6 @@ import { HomePage } from '../page/Homepage.tsx'
 
 
 export const App = () => {
-  const [user, setUser] = useState<User>({});
 
   return <RouterProvider router={createBrowserRouter([
     {
@@ -18,15 +16,15 @@ export const App = () => {
     },
     {
       path: '/register',
-      element: <Register user={user} setUser={setUser} />,
+      element: <Register/>,
     },
     {
       path: '/login',
-      element: <Login user={user} setUser={setUser} />,
+      element: <Login/>,
     },
     {
       path: '/catalogue',
-      element: <HomePage user={user} setUser={setUser} />,
+      element: <HomePage/>,
     }
 
 

@@ -5,12 +5,11 @@ import { useState } from "react";
 import { AlertColor } from "@mui/material";
 import { Message } from "../types/MessageAlert";
 import { createBasicAuthHeader } from "../helper.ts"
-interface Props {
-    user: User,
-    setUser: (newUser: User) => void;
-}
-export const Login: React.FC<Props> = ({ user, setUser }) => {
+import { useUser } from "../context/Authentication.tsx"
+
+export const Login = () => {
     const [message, setMessage] = useState<Message>({ text: '', severity: 'success' as AlertColor })
+    const { user, setUser } = useUser();
 
     const login = (event: React.MouseEvent<HTMLButtonElement>, username: string, password: string) => {
         const basicAuthHeader = createBasicAuthHeader('admin', import.meta.env.VITE_ADMIN_SECRET);
@@ -29,11 +28,11 @@ export const Login: React.FC<Props> = ({ user, setUser }) => {
                     setUser({ username, password })
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                setMessage({text: 'Invalid username or password', severity: 'error' as AlertColor});
             })
     };
-    return <>{user.username && user.password ? < Navigate to="/catalogue" />
+    return <>{user?.username && user?.password ? < Navigate to="/catalogue" />
         : <RegisterLogin
             headerText="Sign In"
             buttonText="Log In"
